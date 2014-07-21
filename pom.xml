@@ -5,7 +5,6 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   
   <modelVersion>4.0.0</modelVersion>
-  
   <groupId>com.jhorology.bibone</groupId>
   <artifactId>bitbone.js</artifactId>
   <version>0.0-SNAPSHOT</version>
@@ -18,6 +17,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <dependencies>
+  </dependencies>
+
   <build>
     <extensions>
       <extension>
@@ -28,16 +30,55 @@
     </extensions>
 
     <plugins>
+      <!-- disable jslint -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jslint-maven-plugin</artifactId>
         <version>1.0.1</version>
+        <executions>
+          <execution>
+            <id>default-jslint</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- disable js-import -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>js-import-maven-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+          <execution>
+            <id>default-import-js</id>
+            <phase>none</phase>
+          </execution>
+          <execution>
+            <id>default-generate-html</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>com.cj.jshintmojo</groupId>
+        <artifactId>jshint-maven-plugin</artifactId>
+        <version>1.3.0</version>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>lint</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
-          <disallowBitwiseOperators>false</disallowBitwiseOperators>
-          <stopOnFirstError>true</stopOnFirstError>
-          <strictWhiteSpace>true</strictWhiteSpace>
-          <strictWhiteSpaceIndentation>4</strictWhiteSpaceIndentation>
-      </configuration>
+          <version>2.4.1</version>
+          <configFile>jshint.conf.js</configFile>
+          <globals>Backbone,_,host</globals>
+          <reporter>jslint</reporter>
+          <reportFile>target/jshint.xml</reportFile>
+          <failOnError>false</failOnError>
+        </configuration>
       </plugin>
     </plugins>
   </build>

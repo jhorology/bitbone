@@ -3,8 +3,7 @@
 
     // imports
     var BeatTime = root.bitbone.BeatTime,
-        RangedValue = root.bitbone.RangedValue,
-        Transport;
+        RangedValue = root.bitbone.RangedValue;
 
     // Transport
     // -------------
@@ -37,7 +36,7 @@
     // Options
     //    metronomeVolumeRange  Number default 128
     //
-    Transport = Backbone.Model.extend({
+    var Transport = Backbone.Model.extend({
         // instance methods
 
         initialize: function (attributes, options) {
@@ -60,60 +59,48 @@
             });
             this.on('change:automationWriteMode', function (model, value, options) {
                 // if changed by user script
-                options.observed || this.initialized &&
-                    api.setAutomationWriteMode(value);
+                options.observed || this.initialized && api.setAutomationWriteMode(value);
             });
 
             api.addClickObserver(function (value) {
                 context.set('click', value, {observed: true});
             });
             this.on('change:click', function (model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized &&
-                    this.api.setClick(value);
+                options.observed || this.initialized && this.api.setClick(value);
             });
 
             api.addIsLoopActiveObserver(function (value) {
                 context.set('loopActive', value, {observed: true});
             });
             this.on('change:loopActive', function (model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized &&
-                    this.api.setLoop(value);
+                options.observed || this.initialized && this.api.setLoop(value);
             });
 
             api.addIsPlayingObserver(function (value) {
                 context.set('playing', value, {observed: true});
             });
             this.on('change:playing', function (model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized &&
-                    ((value) ? this.stop() : this.play());
+                options.observed || this.initialized && ((value) ? this.stop() : this.play());
             });
 
             api.addIsRecordingObserver(function (value) {
                 context.set('recording', value, {observed: true});
             });
             this.on('change:recording', function (model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized &&
-                    this.record();
+                options.observed || this.initialized && this.record();
             });
 
             api.addIsWritingArrangerAutomationObserver(function (value) {
                 context.set('writingArrangerAutomation', value, {observed: true});
             });
             this.on('change:writingArrangerAutomation', function (model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized &&
-                    this.api.toggleWriteArrangerAutomation();
+                options.observed || this.initialized && this.api.toggleWriteArrangerAutomation();
             });
 
             api.addIsWritingClipLauncherAutomationObserver(function (value) {
                 context.set('writingClipLauncherAutomation', value, {observed: true});
             });
             this.on('change:writingClipLauncherAutomation', function (model, value, options) {
-                // if changed by user script
                 options.observed || this.initialized &&
                     this.api.toggleWriteClipLauncherAutomation();
             });
@@ -123,8 +110,7 @@
             });
             this.on('change:launcherOverdub', function (model, value, options) {
                 // if changed by user script
-                options.observed || this.initialized &&
-                    this.api.setLauncherOverdub(value);
+                options.observed || this.initialized && this.api.setLauncherOverdub(value);
             });
 
             api.addMetronomeTicksObserver(function (value) {
@@ -132,8 +118,7 @@
             });
             this.on('change:metronomeTicks', function (model, value, options) {
                 // if changed by user script
-                options.observed || this.initialized &&
-                    this.api.toggleMetronomeTicks();
+                options.observed || this.initialized && this.api.toggleMetronomeTicks();
             });
 
             api.addMetronomeVolumeObserver(function (value) {
@@ -151,8 +136,7 @@
             });
             this.on('change:overdub', function (model, value, options) {
                 // if changed by user script
-                options.observed || this.initialized &&
-                    this.api.setOverdub(value);
+                options.observed || this.initialized && this.api.setOverdub(value);
             });
 
             api.addPreRollObserver(function (value) {
@@ -163,18 +147,14 @@
                 context.set('punchIn', value, {observed: true});
             });
             this.on('change:punchIn', function (model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized &&
-                    this.api.togglePunchIn();
+                options.observed || this.initialized && this.api.togglePunchIn();
             });
 
             api.addPunchOutObserver(function (value) {
                 context.set('punchOut', value, {observed: true});
             });
             this.on('change:punchOut', function (model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized &&
-                    this.api.togglePunchOut();
+                options.observed || this.initialized && this.api.togglePunchOut();
             });
 
             this.inPosition = BeatTime.create(api.getInPosition(), options);
@@ -240,7 +220,7 @@
 
         deferredPlay: function (millis) {
             var context = this;
-            bitwig.scheduleTask(function () {
+            Bitwig.scheduleTask(function () {
                 context.play();
             }, null, millis);
         },

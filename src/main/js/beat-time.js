@@ -1,8 +1,7 @@
-(function (root, bitwig, Backbone, _) {
+(function (root, Bitwig, Backbone, _) {
     'use strict';
     // imports
-    var RangedValue = root.bitbone.RangedValue,
-        BeatTime;
+    var RangedValue = root.bitbone.RangedValue;
 
     // BeatTime
     // -------------
@@ -23,7 +22,7 @@
     // Options
     //   range   Number default 128
     //
-    BeatTime = RangedValue.extend({
+    var BeatTime = RangedValue.extend({
         initialize: function (attributes, options, api) {
             this.initBeatTime(attributes, options, api);
             this.api = api;
@@ -39,9 +38,7 @@
                 context.set('rawValue', value, {observed: true});
             });
             this.on('change:rawValue', function (model, value, options) {
-                // if changed by user script
-                options.observed ||
-                    (this.initialized && this.api.setRaw(value));
+                options.observed || this.initialized && this.api.setRaw(value);
             });
 
             api.addTimeObserver(
@@ -67,4 +64,4 @@
     root.bitbone || (root.bitbone = {});
     root.bitbone.BeatTime = BeatTime;
 
-}(this, this.host, this.Backbone, this._));
+}(this, host, Backbone, _));

@@ -1,7 +1,5 @@
-(function (root, host, Backbone, _) {
+(function (root, Bitwig, Backbone, _) {
     'use strict';
-
-    var RangedValue;
 
     // RangedValue
     // -------------
@@ -12,7 +10,7 @@
     // Options
     //   range   Number default 128
     //
-    RangedValue = Backbone.Model.extend({
+    var RangedValue = Backbone.Model.extend({
 
         initialize: function (attributes, options, api) {
             this.initBooleanValue(attributes, options, api);
@@ -31,9 +29,8 @@
 
             this.on('change:value', function (model, value, options) {
                 // if changed by user script
-                options.observed ||
-                    (this.initialized &&
-                     api.set(value, _.isNumber(options.range) ? options.range : this.range));
+                options.observed || this.initialized &&
+                    api.set(value, _.isNumber(options.range) ? options.range : this.range);
             });
         },
 
@@ -60,4 +57,4 @@
     root.bitbone.RangedValue = RangedValue;
     root.bitbone.RangedValueCollection = RangedValueCollection;
 
-}(this, this.host, this.Backbone, this._));
+}(this, host, Backbone, _));
