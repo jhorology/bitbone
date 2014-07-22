@@ -1,11 +1,11 @@
-(function(root, host, Backbone, _) {
+(function(root, Bitwig, Backbone, _) {
     'use strict';
 
     // imports
-    var BooleanValue = root.bitwig.BooleanValue,
-        AutomatableRangedValue = root.bitwig.AutomatableRangedValue,
+    var BooleanValue = root.bitbone.BooleanValue,
+        AutomatableRangedValue = root.bitbone.AutomatableRangedValue,
         AutomatableRangedValueCollection =
-            root.bitwig.AutomatableRangedValueCollection;
+            root.bitbone.AutomatableRangedValueCollection;
 
     // Channel
     // -------------
