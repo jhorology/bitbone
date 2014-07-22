@@ -1,4 +1,4 @@
-(function (root, Bitwig, Backbone, _) {
+(function(root, Bitwig, Backbone, _) {
     'use strict';
 
     // Application
@@ -14,27 +14,27 @@
     //
     var Application = Backbone.Model.extend({
         // Initialize backbone model.
-        initialize: function (attributes, options) {
+        initialize: function(attributes, options) {
             var api = Bitwig.createApplication();
             this.initApplication(attributes, options, api);
             this.api = api;
             this.initialized = true;
         },
 
-        initApplication: function (attributes, options, api) {
+        initApplication: function(attributes, options, api) {
             var context = this;
 
-            api.addHasActiveEngineObserver(function (value) {
+            api.addHasActiveEngineObserver(function(value) {
                 context.set('hasActiveEngine', value, {observed: true});
             });
 
-            this.on('change:hasActiveEngine', function (model, value, options) {
+            this.on('change:hasActiveEngine', function(model, value, options) {
                 options.observed || this.initialized &&
                     (value ? this.deactivateEngine() : this.activateEngine());
             });
 
             api.addSelectedModeObserver(
-                function (value) {
+                function(value) {
                     context.set('selectedMode', value, {observed: true});
                 },
                 _.isNumber(options.selectedModeMaxChars) ?
@@ -44,147 +44,147 @@
             );
         },
 
-        activateEngine: function () {
+        activateEngine: function() {
             this.api.activateEngine();
         },
 
-        arrowKeyDown: function () {
+        arrowKeyDown: function() {
             this.api.arrowKeyDown();
         },
 
-        arrowKeyLeft: function () {
+        arrowKeyLeft: function() {
             this.api.arrowKeyLeft();
         },
 
-        arrowKeyRight: function () {
+        arrowKeyRight: function() {
             this.api.arrowKeyRight();
         },
 
-        arrowKeyUp: function () {
+        arrowKeyUp: function() {
             this.api.arrowKeyUp();
         },
 
-        copy: function () {
+        copy: function() {
             this.api.copy();
         },
 
-        cut: function () {
+        cut: function() {
             this.api.cut();
         },
 
-        deactivateEngine: function () {
+        deactivateEngine: function() {
             this.api.deactivateEngine();
         },
 
-        'delete': function () {
+        'delete': function() {
             this.api['delete']();
         },
 
-        duplicate: function () {
+        duplicate: function() {
             this.api.duplicate();
         },
 
-        enter: function () {
+        enter: function() {
             this.api.enter();
         },
 
-        escape: function () {
+        escape: function() {
             this.api.escape();
         },
 
-        focusPanelAbove: function () {
+        focusPanelAbove: function() {
             this.api.focusPanelAbove();
         },
 
-        focusPanelBelow: function () {
+        focusPanelBelow: function() {
             this.api.focusPanelBelow();
         },
 
-        focusPanelToLeft: function () {
+        focusPanelToLeft: function() {
             this.api.focusPanelToLeft();
         },
 
-        focusPanelToRight: function () {
+        focusPanelToRight: function() {
             this.api.focusPanelToRight();
         },
 
-        nextPerspective: function () {
+        nextPerspective: function() {
             this.api.nextPerspective();
         },
 
-        paste: function () {
+        paste: function() {
             this.api.paste();
         },
 
-        previousPerspective: function () {
+        previousPerspective: function() {
             this.api.previousPerspective();
         },
 
-        redo: function () {
+        redo: function() {
             this.api.redo();
         },
 
-        rename: function () {
+        rename: function() {
             this.api.rename();
         },
 
-        selectAll: function () {
+        selectAll: function() {
             this.api.selectAll();
         },
 
-        selectNone: function () {
+        selectNone: function() {
             this.api.selectNone();
         },
 
-        setPerspective: function (perspective) {
+        setPerspective: function(perspective) {
             this.api.setPerspective(perspective);
         },
 
-        toggleAutomationEditor: function () {
+        toggleAutomationEditor: function() {
             this.api.toggleAutomationEditor();
         },
 
-        toggleBrowserVisibility: function () {
+        toggleBrowserVisibility: function() {
             this.api.toggleBrowserVisibility();
         },
 
-        toggleDevices: function () {
+        toggleDevices: function() {
             this.api.toggleDevices();
         },
 
-        toggleFullScreen: function () {
+        toggleFullScreen: function() {
             this.api.toggleFullScreen();
         },
 
-        toggleMixer: function () {
+        toggleMixer: function() {
             this.api.toggleMixer();
         },
 
-        toggleNoteEditor: function () {
+        toggleNoteEditor: function() {
             this.api.toggleNoteEditor();
         },
 
-        undo: function () {
+        undo: function() {
             this.api.undo();
         },
 
-        zoomIn: function () {
+        zoomIn: function() {
             this.api.zoomIn();
         },
 
-        zoomOut: function () {
+        zoomOut: function() {
             this.api.zoomOut();
         },
 
-        zoomToFit: function () {
+        zoomToFit: function() {
             this.api.zoomToFit();
         },
 
-        zoomToSelection: function () {
+        zoomToSelection: function() {
             this.api.zoomToSelection();
         }
     },{
-        create: function (options) {
+        create: function(options) {
             return new Application(options);
         }
     });

@@ -17,14 +17,11 @@
     //   name         string r
     //   vuMeterLeft  Number r  *options.useVuMeter
     //   vuMeterRight Number r  *options.useVuMeter
-    //
-    // Properties
-    //
-    //   exists  BooleanValue
-    //   mute    BooleanValue
-    //   pan     AutomatableRangedValue
-    //   sends   AutomatableRangedValueCollection
-    //   volume  AutomatableRangedValue
+    //   exists  BooleanValue  r
+    //   mute    BooleanValue  r
+    //   pan     AutomatableRangedValue r
+    //   sends   AutomatableRangedValueCollection t
+    //   volume  AutomatableRangedValue r
     //
     // Options
     //
@@ -38,9 +35,11 @@
     //   volumeRange   Number default 128
     //
     // Events
-    //   'note'       args: on/off boolean,
+    //   'note'       optional *options.useNoteEvent
+    //                args: on/off boolean,
     //                      note#
-    //                      velocity *options.useNoteEvent
+    //                      velocity
+    //
     var Channel = Backbone.Model.extend({
         // Initialize backbone model.
         initialize: function(attributes, options, channel) {
@@ -90,18 +89,19 @@
                 });
             }
 
-            this.exists = BooleanValue.create(api.exists());
-            this.mute = BooleanValue.create(api.getMute());
-            this.pan = AutomatableRangedValue.create(api.getMute(),
-                                                     {range:options.panRange});
-            this.sends = new AutomatableRangedValueCollection();
+            this.set('exists', BooleanValue.create(api.exists()));
+            this.set('mute',BooleanValue.create(api.getMute()));
+            this.set('pan', AutomatableRangedValue.create(api.getMute(),
+                                                          {range:options.panRange}));
+            var sends = new AutomatableRangedValueCollection();
             for (i = 0; i < numSends; i++) {
-                this.sends.add(
-                    AutomatableRangedValue.create(api.getSend(i), {range:options.sendRange}));
+                sends.add(AutomatableRangedValue.create(api.getSend(i),
+                                                        {range:options.sendRange}));
             }
-            this.solo = BooleanValue.create(api.getSolo());
-            this.volume = AutomatableRangedValue.
-                create(api.getVolume(), {range:options.volumeRange});
+            this.set('sends', sends);
+            this.set('solo', BooleanValue.create(api.getSolo()));
+            this.set('volume', AutomatableRangedValue.
+                     create(api.getVolume(), {range:options.volumeRange}));
         },
 
         select: function() {
@@ -117,8 +117,6 @@
 
     });
 
-    // AutomatableRangedValueCollection
-    // -------------
     var ChannelCollection = Backbone.Collection.extend({
         model: Channel
     });

@@ -1,5 +1,6 @@
-(function (root, Bitwig, Backbone, _) {
+(function(root, Bitwig, Backbone, _) {
     'use strict';
+
     // imports
     var RangedValue = root.bitbone.RangedValue;
 
@@ -13,7 +14,7 @@
     // Options
     //   timeSeparator string default "."
     //
-    // extends RangedValue
+    // extend RangedValue
     // -------------
     //
     // Attributes
@@ -23,38 +24,38 @@
     //   range   Number default 128
     //
     var BeatTime = RangedValue.extend({
-        initialize: function (attributes, options, api) {
+        initialize: function(attributes, options, api) {
             this.initBeatTime(attributes, options, api);
             this.api = api;
             this.initialized = true;
         },
 
-        initBeatTime: function (attributes, options, api) {
+        initBeatTime: function(attributes, options, api) {
             var context = this;
 
             this.initRangedValue(attributes, options, api);
 
-            api.addRawValueObserver(function (value) {
+            api.addRawValueObserver(function(value) {
                 context.set('rawValue', value, {observed: true});
             });
-            this.on('change:rawValue', function (model, value, options) {
+            this.on('change:rawValue', function(model, value, options) {
                 options.observed || this.initialized && this.api.setRaw(value);
             });
 
             api.addTimeObserver(
                 _.isString(options.timeSeparator) ? options.timeSeparator : '.',
-                1, 1, 1, 0, function (value) {
+                1, 1, 1, 0, function(value) {
                     context.set('text', value, {observed: true});
                 });
         },
 
-        incRaw: function (delta) {
+        incRaw: function(delta) {
             this.api.incRaw(delta);
         }
 
     },{
 
-        create: function (beatTime, options) {
+        create: function(beatTime, options) {
             return new BeatTime(null, options, beatTime);
         }
 

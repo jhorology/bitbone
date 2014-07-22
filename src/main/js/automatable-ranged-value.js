@@ -1,5 +1,6 @@
 (function(root, Bitwig, Backbone, _) {
     'use strict';
+
     // imports
     var RangedValue = root.bitbone.RangedValue;
 
@@ -86,7 +87,7 @@
         model: AutomatableRangedValue
     });
 
-    // export
+    // exports
     root.bitbone || (root.bitbone = {});
     root.bitbone.AutomatableRangedValue = AutomatableRangedValue;
     root.bitbone.AutomatableRangedValueCollection =
