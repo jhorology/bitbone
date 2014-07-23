@@ -8,10 +8,12 @@
     // -------------
     //
     // Attributes
+    //
     //   rawValue   Number r/w
     //   text       string r
     //
     // Options
+    //
     //   timeSeparator string default "."
     //
     // extend RangedValue

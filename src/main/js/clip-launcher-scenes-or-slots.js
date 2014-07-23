@@ -1,6 +1,14 @@
 (function(root, host, Backbone, _) {
     'use strict';
 
+    // ClipLauncherScenesOrSlot
+    // -------------
+    //
+    // Attributes
+    //
+    //   slot       Number r
+    //   name       string r
+    //
     var ClipLauncherScenesOrSlot =  Backbone.Model.extend({
         idAttribute: 'slot',
         initialize: function(attributes, options, api) {
@@ -12,6 +20,9 @@
         initClipLauncherScenesOrSlot: function(attributes, options, api) {
         },
 
+        // Bitwig API wrapper methods
+        // -------------
+
         launch: function() {
             this.api.launch(this.get('slot'));
         }
@@ -22,6 +33,10 @@
         }
     });
 
+    // ClipLauncherScenesOrSlots
+    // -------------
+    // Collection of ClipLauncherScenesOrSlot
+    //
     var ClipLauncherScenesOrSlots =  Backbone.Collection.extend({
         model: ClipLauncherScenesOrSlot,
 
@@ -37,18 +52,25 @@
                 _.isNumber(options.nameMaxChars) ? options.nameMaxChars : 12,
                 _.isString(options.nameFallback) ? options.nameFallback : '',
                 function(slot, value) {
-                    var item = context.get(slot);
-                    if (item) {
-                        item.set('name', value, {observed:true});
-                    } else {
-                        context.add(ClipLauncherScenesOrSlot.create({slot:slot, name:value},
-                                                                    null, context.api));
-                    }
+                    context.createOrUpdateSlot({slot:slot, name:value},{observed:true});
                 });
         },
 
+        createOrUpdateSlot: function(attributes, options) {
+            var item = this.get(attributes.slot);
+            if (item) {
+                item.set(attributes, options);
+            } else {
+                this.add(this.model.create(attributes, options, this.api));
+            }
+        },
+
+
+        // Bitwig API wrapper methods
+        // -------------
+
         returnToArrangement: function() {
-            this.api.returnToArrangementp();
+            this.api.returnToArrangement();
         },
 
         stop: function() {
@@ -57,7 +79,7 @@
 
     }, {
 
-        // factrory method
+        // factory method
         create: function(api, options) {
             return new ClipLauncherScenesOrSlots(undefined, options, api);
         }
@@ -69,4 +91,4 @@
     root.bitwig.ClipLauncherScenesOrSlot = ClipLauncherScenesOrSlot;
     root.bitwig.ClipLauncherScenesOrSlots = ClipLauncherScenesOrSlots;
 
-}(this, this.host, this.Backbone, this._));
+}(this, host, Backbone, _));

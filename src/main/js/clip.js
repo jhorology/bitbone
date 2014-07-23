@@ -1,4 +1,4 @@
-(function(root, bitwig, Backbone, _) {
+(function(root, Bitwig, Backbone, _) {
     'use strict';
     // imports
     var RangedValue = root.bitbone.RangedValue,
@@ -21,7 +21,7 @@
     //   accentRange            Number default 128
     var Clip = Backbone.Model.extend({
         initialize: function(attributes, options) {
-            var api = bitwig.createCursorClip(
+            var api = Bitwig.createCursorClip(
                 _.isNumber(options.griwdWidth) ? options.gridWidth : 128,
                 _.isNumber(options.griwdHeight) ? options.gridHeight : 128
             );
@@ -119,4 +119,4 @@
     // export
     root.bitbone || (root.bitbone = {});
     root.bitbone.Clip = Clip;
-}(this, this.host, this.Backbone, this._));
+}(this, host, Backbone, _));
