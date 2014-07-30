@@ -10,18 +10,18 @@
     // Channel
     // -------------
     //
-    // Backbone Model Attributes
+    // Attributes
     //
     //   color        object {R,G,B} r
     //   selected     boolean r
     //   name         string r
-    //   vuMeterLeft  Number r  *options.useVuMeter
-    //   vuMeterRight Number r  *options.useVuMeter
-    //   exists  BooleanValue  r
-    //   mute    BooleanValue  r
-    //   pan     AutomatableRangedValue r
-    //   sends   AutomatableRangedValueCollection t
-    //   volume  AutomatableRangedValue r
+    //   vuMeterLeft  Number r  *optional options.useVuMeter
+    //   vuMeterRight Number r  *optional options.useVuMeter
+    //   exists       BooleanValue  r
+    //   mute         BooleanValue  r
+    //   pan          AutomatableRangedValue r
+    //   sends        AutomatableRangedValueCollection t
+    //   volume       AutomatableRangedValue r
     //
     // Options
     //
@@ -110,7 +110,7 @@
 
     }, {
 
-        // factrory method
+        // factory method
         create: function(channel, options) {
             return new Channel(undefined, options, channel);
         }

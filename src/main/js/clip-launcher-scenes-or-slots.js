@@ -1,4 +1,4 @@
-(function(root, host, Backbone, _) {
+(function(root, Bitwig, Backbone, _) {
     'use strict';
 
     // ClipLauncherScenesOrSlot
@@ -27,7 +27,7 @@
             this.api.launch(this.get('slot'));
         }
     }, {
-        // factrory method
+        // factory method
         create: function(attributes, options, api) {
             return new ClipLauncherScenesOrSlots(attributes, options, api);
         }

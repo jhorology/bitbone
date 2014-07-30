@@ -5,6 +5,7 @@
     // -------------
     //
     // Attributes
+    //
     //   boolean r/w value
     //
     var BooleanValue =  Backbone.Model.extend({

@@ -25,11 +25,11 @@
     //   presetCategory               string
     //   presetCreators               Array of string
     //   presetCreator                string
-    //   commonParameters     AutomatableRangedValueCollection
-    //   envelopeParameters   AutomatableRangedValueCollection
-    //   macros               MacroCollection
-    //   modulationSources    ModulationSourceCollection
-    //   paramater            AutomatableRangedValueCollection
+    //   commonParameters             AutomatableRangedValueCollection
+    //   envelopeParameters           AutomatableRangedValueCollection
+    //   macros                       MacroCollection
+    //   modulationSources            ModulationSourceCollection
+    //   paramater                    AutomatableRangedValueCollection
     //
     // Options
     //   modulationSourceMaxChars  Number default:12

@@ -9,13 +9,15 @@
     // -------------
     //
     // Attributes
+    //
     //   label             string r
     //   amount            AutomatableRangedValue r
     //   modulationSource  ModulationSource r
     //
     // Options
+    //
     //   labelMaxChars  Number default 12
-    //   labelallback   string default ''
+    //   labelFallback   string default ''
     //   range          Number default 128
     //
     var Macro = Backbone.Model.extend({
@@ -35,8 +37,8 @@
                     context.set('label', value, {observed:true});
                 });
 
-            this.amount = AutomatableRangedValue.create(api.getAmount(), options);
-            this.modulationSource = ModulationSource.create(api.getModulationSource());
+            this.set('amount', AutomatableRangedValue.create(api.getAmount(), options));
+            this.set('modulationSource', ModulationSource.create(api.getModulationSource()));
         }
 
     },{

@@ -1,5 +1,6 @@
 (function(root, Bitwig, Backbone, _) {
     'use strict';
+
     // imports
     var RangedValue = root.bitbone.RangedValue,
         BooleanValue = root.bitbone.BooleanValue;
@@ -8,6 +9,7 @@
     // -------------
     //
     // Attributes
+    //
     //   canScrollKeysDown      boolean r
     //   canScrollKeysUp        boolean r
     //   canScrollStepsForward  boolean r
@@ -16,6 +18,7 @@
     //   shuffle                BooleanValue r
     //
     // Options
+    //
     //   gridWidth              Numner default 128
     //   gridHeight             Numner default 128
     //   accentRange            Number default 128

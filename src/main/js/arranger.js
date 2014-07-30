@@ -1,15 +1,19 @@
 (function(root, Bitwig, Backbone, _) {
     'use strict';
+
     // Arranger
     // -------------
     //
-    // Backbone Model Attributes
+    // Attributes
+    //
     //   cueMarkerVisiblity  boolean r/w
     //   playbackFollow      boolean r/w
     //   trackRowHeight      boolean r/w
     //
     // Options
+    //
     //   screenIndex         Numner default 0
+    //
     var Arranger = Backbone.Model.extend({
         initialize: function(attributes, options) {
             var api = Bitwig.createArranger(

@@ -77,7 +77,7 @@
     },{
 
         create: function(automatableRangedValue, options) {
-            return new AutomatableRangedValue(null, options,
+            return new AutomatableRangedValue(undefined, options,
                                               automatableRangedValue);
         }
 
