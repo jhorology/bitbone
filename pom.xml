@@ -18,6 +18,12 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.github.jrburke</groupId>
+      <artifactId>almond</artifactId>
+      <version>67cd7dc</version>
+      <type>js</type>
+    </dependency>
   </dependencies>
 
   <build>

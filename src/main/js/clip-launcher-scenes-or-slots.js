@@ -52,19 +52,9 @@
                 _.isNumber(options.nameMaxChars) ? options.nameMaxChars : 12,
                 _.isString(options.nameFallback) ? options.nameFallback : '',
                 function(slot, value) {
-                    context.createOrUpdateSlot({slot:slot, name:value},{observed:true});
+                    context.add({slot:slot, name:value},{observed:true, merge:true});
                 });
         },
-
-        createOrUpdateSlot: function(attributes, options) {
-            var item = this.get(attributes.slot);
-            if (item) {
-                item.set(attributes, options);
-            } else {
-                this.add(this.model.create(attributes, options, this.api));
-            }
-        },
-
 
         // Bitwig API wrapper methods
         // -------------
