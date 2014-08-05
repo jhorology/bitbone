@@ -82,6 +82,16 @@
                 context.set('trackScrollPosition', value, {observed:true});
             }, -1 );
 
+            var trackScrollStepSize = _.isNumber(options.trackScrollStepSize) ?
+                    options.trackScrollStepSize : 1;
+            api.setTrackScrollStepSize(trackScrollStepSize);
+            this.set('trackScrollStepSize', trackScrollStepSize);
+            this.on('change:trackScrollStepSize', function (model, value, options) {
+                // if changed by user script
+                options.observed || this.initialized &&
+                    this.api.setTrackScrollStepSize(value);
+            });
+
             this.set('clipLauncherScenes',
                      ClipLauncherScenesOrSlots.create(api.getClipLauncherScenes()));
 

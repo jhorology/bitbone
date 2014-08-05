@@ -1,30 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project 
-    xmlns="http://maven.apache.org/POM/4.0.0" 
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.jhorology.bibone</groupId>
   <artifactId>bitbone.js</artifactId>
   <version>0.0-SNAPSHOT</version>
   <packaging>js</packaging>
-  
+
   <name>bitbone.js</name>
   <description></description>
-  
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.github.jrburke</groupId>
-      <artifactId>almond</artifactId>
-      <version>67cd7dc</version>
-      <type>js</type>
-    </dependency>
-  </dependencies>
 
   <build>
     <extensions>
@@ -46,6 +37,10 @@
             <id>default-jslint</id>
             <phase>none</phase>
           </execution>
+          <execution>
+            <id>default-test-jslint</id>
+            <phase>none</phase>
+          </execution>
         </executions>
       </plugin>
       <!-- disable js-import -->
@@ -60,6 +55,27 @@
           </execution>
           <execution>
             <id>default-generate-html</id>
+            <phase>none</phase>
+          </execution>
+          <execution>
+            <id>default-test-import-js</id>
+            <phase>none</phase>
+          </execution>
+          <execution>
+            <id>default-test-generate-html</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- disable webminifier -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>webminifier-maven-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+          <execution>
+            <id>default-minify-js</id>
             <phase>none</phase>
           </execution>
         </executions>
@@ -86,6 +102,55 @@
           <failOnError>false</failOnError>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>com.samaxes.maven</groupId>
+        <artifactId>minify-maven-plugin</artifactId>
+        <version>1.7.3</version>
+        <executions>
+          <execution>
+            <id>default-minify</id>
+            <!-- When omitted defaults to 'process-resources' -->
+            <phase>package</phase>
+            <configuration>
+              <charset>UTF-8</charset>
+              <webappSourceDir>${basedir}/src/main</webappSourceDir>
+              <jsSourceDir>js</jsSourceDir>
+              <jsSourceFiles>
+                <jsSourceFile>application.js</jsSourceFile>
+                <jsSourceFile>arranger.js</jsSourceFile>
+                <jsSourceFile>ranged-value.js</jsSourceFile>
+                <jsSourceFile>automatable-ranged-value.js</jsSourceFile>
+                <jsSourceFile>beat-time.js</jsSourceFile>
+                <jsSourceFile>boolean-value.js</jsSourceFile>
+                <jsSourceFile>channel.js</jsSourceFile>
+                <jsSourceFile>clip-launcher-scenes-or-slots.js</jsSourceFile>
+                <jsSourceFile>clip-launcher-slots.js</jsSourceFile>
+                <jsSourceFile>clip.js</jsSourceFile>
+                <jsSourceFile>modulation-source.js</jsSourceFile>
+                <jsSourceFile>macro.js</jsSourceFile>
+                <jsSourceFile>device.js</jsSourceFile>
+                <jsSourceFile>cursor-device.js</jsSourceFile>
+                <jsSourceFile>source-selector.js</jsSourceFile>
+                <jsSourceFile>track.js</jsSourceFile>
+                <jsSourceFile>cursor-track.js</jsSourceFile>
+                <jsSourceFile>groove.js</jsSourceFile>
+                <jsSourceFile>mixer.js</jsSourceFile>
+                <jsSourceFile>primary-device.js</jsSourceFile>
+                <jsSourceFile>track-bank.js</jsSourceFile>
+                <jsSourceFile>transport.js</jsSourceFile>
+                <jsSourceFile>user-control-bank.js</jsSourceFile>
+              </jsSourceFiles>
+              <jsFinalFile>bitbone.js</jsFinalFile>
+              <jsEngine>CLOSURE</jsEngine>
+            </configuration>
+            <goals>
+              <goal>minify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
