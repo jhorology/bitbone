@@ -77,8 +77,8 @@
     });
 
     // export
-    root.bitwig || (root.bitwig = {});
-    root.bitwig.ClipLauncherScenesOrSlot = ClipLauncherScenesOrSlot;
-    root.bitwig.ClipLauncherScenesOrSlots = ClipLauncherScenesOrSlots;
+    root.bitbone || (root.bitbone = {});
+    root.bitbone.ClipLauncherScenesOrSlot = ClipLauncherScenesOrSlot;
+    root.bitbone.ClipLauncherScenesOrSlots = ClipLauncherScenesOrSlots;
 
 }(this, host, Backbone, _));

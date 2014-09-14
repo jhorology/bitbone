@@ -108,14 +108,14 @@
 
         // factory method
         create: function(api, options) {
-            return new ClipLauncherScenesOrSlots(undefined, options, api);
+            return new ClipLauncherSlots(undefined, options, api);
         }
 
     });
 
     // export
-    root.bitwig || (root.bitwig = {});
-    root.bitwig.ClipLauncherSlot = ClipLauncherSlot;
-    root.bitwig.ClipLauncherSlots = ClipLauncherSlots;
+    root.bitbone || (root.bitbone = {});
+    root.bitbone.ClipLauncherSlot = ClipLauncherSlot;
+    root.bitbone.ClipLauncherSlots = ClipLauncherSlots;
 
 }(this, host, Backbone, _));

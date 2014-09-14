@@ -1,0 +1,14 @@
+{
+  "name"          : "bitbone",
+  "version"       : "0.0.1",
+  "description"   : "Give your Bitwig Control Surface Scriptt some Backbone with Models, Views, Collections, and Events.",
+  "keywords"      : ["bitwig", "model", "view", "controller", "router", "server", "client"],
+  "repo"          : "jhorology/bitbone",
+  "dependencies"  : {
+    "jashkenas/backbone"  : "*",
+    "jashkenas/underscore"  : "*"
+  },
+  "main"          : "bitbone.js",
+  "scripts"       : ["bitbone.js"],
+  "license"       : "MIT"
+}
