@@ -49,10 +49,9 @@
         initClipLauncherScenesOrSlots: function(models, options, api) {
             var context = this;
             api.addNameObserver(
-                _.isNumber(options.nameMaxChars) ? options.nameMaxChars : 12,
-                _.isString(options.nameFallback) ? options.nameFallback : '',
                 function(slot, value) {
-                    context.add({slot:slot, name:value},{observed:true, merge:true});
+                    context.add({slot:slot + (_.isNumber(options.oneBased) ? 1 : 0), name:value},
+                                {observed:true, merge:true});
                 });
         },
 

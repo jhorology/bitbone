@@ -1,5 +1,5 @@
 (function(root, Bitwig, Backbone, _) {
-//    'use strict';
+    'use strict';
 
     // Application
     // -------------

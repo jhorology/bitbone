@@ -49,8 +49,6 @@
         }
     });
 
-
-
     // ClipLauncherSlots
     // -------------
     // extend ClipLauncherScenesOrSlots
@@ -91,9 +89,6 @@
             api.addIsSelectedObserver(function(slot, value) {
                 context.add({slot:slot, selected:value}, {observed:true, merge:true});
             });
-
-            this.api = api;
-            this.initialized = true;
         },
 
         createEmptyClip: function(slot, lengthInBeats) {

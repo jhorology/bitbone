@@ -69,7 +69,7 @@
     // true: シングルクオーテーションでもダブルクオーテーションでもいいがどちらかに統一することを強制
     // single: シングルクオーテーションを強制
     // double: ダブルクオーテーションを強制
-    "quotmark": "single",
+    "quotmark": true,
 
     // var宣言されていない変数を使用することを禁止する。
     // 変数のタイポだったり、うっかりvar忘れの検知に便利（var忘れはglobal変数へのアクセスになって危険）。
@@ -277,10 +277,10 @@
     /*
      * カスタムグローバルキーワードの設定
      */
-    "globals": {
-        "Backbone":true,
-        "_":true,
-        "host":true,
-    }
-//    "predef": ["Backbone","host", "_" ]
+    // "globals": {
+    //     "Backbone":true,
+    //     "_":true,
+    //     "host":true,
+    // }
+    "predef": ["module", "Backbone","host", "_" ]
 }
