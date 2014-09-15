@@ -41,7 +41,7 @@
         model: ClipLauncherScenesOrSlot,
 
         initialize: function(models, options, api) {
-            this.inttClipLauncherScenesOrSlots(models, options, api);
+            this.initClipLauncherScenesOrSlots(models, options, api);
             this.api = api;
             this.initialized = true;
         },

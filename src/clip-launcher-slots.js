@@ -56,7 +56,7 @@
         model: ClipLauncherSlot,
 
         initialize: function(models, options, api) {
-            this.inttClipLauncherSlots(models, options, api);
+            this.initClipLauncherSlots(models, options, api);
             this.api = api;
             this.initialized = true;
         },
@@ -64,7 +64,7 @@
         initClipLauncherSlots: function(models, options, api) {
             var context = this;
 
-            this.inttClipLauncherScenesOrSlots(models, options, api);
+            this.initClipLauncherScenesOrSlots(models, options, api);
 
             api.addColorObserver(function(slot, r, g, b) {
                 context.add({slot:slot, color:{R:r, G:g, B:b}}, {observed:true, merge:true});
