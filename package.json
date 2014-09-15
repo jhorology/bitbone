@@ -1,28 +1,40 @@
 {
   "name": "bitbone",
+
   "version": "0.0.1",
+
   "description": "Backbone Model wrapped Bitwig Controller API.",
+
   "main": "bitbone.js",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+
   "repository": {
     "type": "git",
     "url": "https://github.com/jhorology/bitbone.git"
   },
+
   "keywords": [
     "bitwig"
   ],
+
   "author": "jhorology <jhorology2014@gmail.com>",
+
+  "license": "MIT",
+
+  "bugs": {
+    "url": "https://github.com/jhorology/bitbone/issues"
+  },
+
+  "homepage": "https://github.com/jhorology/bitbone",
+
   "dependencies": {
     "underscore": ">=1.5.0",
     "backbone": ">=1.1.2"
   },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/jhorology/bitbone/issues"
-  },
-  "homepage": "https://github.com/jhorology/bitbone",
+
   "devDependencies": {
     "grunt": ">=0.4.5",
     "grunt-contrib-concat": ">=0.5.0",
