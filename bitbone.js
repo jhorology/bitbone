@@ -717,7 +717,10 @@
 
     // ClipLauncherScenesOrSlots
     // -------------
-    // Collection of ClipLauncherScenesOrSlot
+    //
+    // Options
+    //
+    //   oneBased     boolean default false
     //
     var ClipLauncherScenesOrSlots =  Backbone.Collection.extend({
         model: ClipLauncherScenesOrSlot,
@@ -725,6 +728,7 @@
         initialize: function(models, options, api) {
             this.initClipLauncherScenesOrSlots(models, options, api);
             this.api = api;
+            this.oneBased = options.oneBase;
             this.initialized = true;
         },
 
@@ -732,9 +736,13 @@
             var context = this;
             api.addNameObserver(
                 function(slot, value) {
-                    context.add({slot:slot + (_.isNumber(options.oneBased) ? 1 : 0), name:value},
+                    context.add({slot:context.slotId(slot), name:value},
                                 {observed:true, merge:true});
                 });
+        },
+
+        slotId: function(slot) {
+            return this.oneBased ? slot + 1 : slot;
         },
 
         // Bitwig API wrapper methods
@@ -833,27 +841,33 @@
             this.initClipLauncherScenesOrSlots(models, options, api);
 
             api.addColorObserver(function(slot, r, g, b) {
-                context.add({slot:slot, color:{R:r, G:g, B:b}}, {observed:true, merge:true});
+                context.add({slot:context.slotId(slot), color:{R:r, G:g, B:b}},
+                            {observed:true, merge:true});
             });
 
             api.addHasContentObserver(function(slot, value) {
-                context.add({slot:slot, hasContent:value}, {observed:true, merge:true});
+                context.add({slot:context.slotId(slot), hasContent:value},
+                            {observed:true, merge:true});
             });
 
             api.addIsPlayingObserver(function(slot, value) {
-                context.add({slot:slot, playing:value}, {observed:true, merge:true});
+                context.add({slot:context.slotId(slot), playing:value},
+                            {observed:true, merge:true});
             });
 
             api.addIsQueuedObserver(function(slot, value) {
-                context.add({slot:slot, queued:value}, {observed:true, merge:true});
+                context.add({slot:context.slotId(slot), queued:value},
+                            {observed:true, merge:true});
             });
 
             api.addIsRecordingObserver(function(slot, value) {
-                context.add({slot:slot, recording:value}, {observed:true, merge:true});
+                context.add({slot:context.slotId(slot), recording:value},
+                            {observed:true, merge:true});
             });
 
             api.addIsSelectedObserver(function(slot, value) {
-                context.add({slot:slot, selected:value}, {observed:true, merge:true});
+                context.add({slot:context.slotId(slot), selected:value},
+                            {observed:true, merge:true});
             });
         },
 
