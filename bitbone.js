@@ -643,7 +643,7 @@
 
             this.set('exists', BooleanValue.create(api.exists()));
             this.set('mute',BooleanValue.create(api.getMute()));
-            this.set('pan', AutomatableRangedValue.create(api.getMute(),
+            this.set('pan', AutomatableRangedValue.create(api.getPan(),
                                                           {range:options.panRange}));
             var sends = new AutomatableRangedValueCollection();
             for (i = 0; i < numSends; i++) {
@@ -1024,7 +1024,7 @@
 (function(root, bitwig, Backbone, _) {
     'use strict';
 
-    // Macro
+    // ModulationSource
     // -------------
     //
     // Attributes
@@ -1118,7 +1118,7 @@
         initMacro: function(attributes, options, api) {
             var context = this;
 
-            api.addLabelbserver(
+            api.addLabelObserver(
                 _.isNumber(options.labelMaxChars) ? options.labelMaxChars : 12,
                 _.isString(options.labelFallback) ? options.labelFallback : '',
                 function(value) {
@@ -1132,7 +1132,7 @@
     },{
 
         create: function(automatedRangedValue, options) {
-            return new AutomatableRangedValue(null, options, automatedRangedValue);
+            return new Macro(null, options, automatedRangedValue);
         }
 
     });
@@ -1269,13 +1269,13 @@
 
             collection = new AutomatableRangedValueCollection();
             for(i = 0; i < 8; i++) {
-                collection.add(AutomatableRangedValue.create(api.getCommonParamater(i)));
+                collection.add(AutomatableRangedValue.create(api.getCommonParameter(i)));
             }
             this.set('commonParameters', collection);
 
             collection = new AutomatableRangedValueCollection();
             for(i = 0; i < 8; i++) {
-                collection.add(AutomatableRangedValue.create(api.getEnvelopeParamater(i)));
+                collection.add(AutomatableRangedValue.create(api.getEnvelopeParameter(i)));
             }
             this.set('envelopeParameters', collection);
 
@@ -1293,7 +1293,7 @@
 
             collection = new AutomatableRangedValueCollection();
             for(i = 0; i < 8; i++) {
-                collection.add(AutomatableRangedValue.create(api.getParamater(i)));
+                collection.add(AutomatableRangedValue.create(api.getParameter(i)));
             }
             this.set('parameters', collection);
         },
@@ -1428,7 +1428,7 @@
     // inports
     var BooleanValue = root.bitbone.BooleanValue;
 
-    // UserControlBank
+    // SourceSelector
     // -------------
     //
     // Attributes
@@ -1440,14 +1440,14 @@
     //
     var SourceSelector = Backbone.Model.extend({
         initialize: function(models, options, api) {
-            this.initUserControlBank(models, options, api);
+            this.initSourceSelector(models, options, api);
             this.api = api;
             this.initialized = true;
         },
 
         initSourceSelector: function(attributes, options, api) {
-            this.set('hasAudioInputSelected', api.getHasAudioInputSelected());
-            this.set('hasNoteInputSelected', api.getHasNoteInputSelected());
+            this.set('hasAudioInputSelected', BooleanValue.create(api.getHasAudioInputSelected()));
+            this.set('hasNoteInputSelected', BooleanValue.create(api.getHasNoteInputSelected()));
         }
 
     },{
@@ -1460,7 +1460,7 @@
 
     // export
     root.bitbone || (root.bitbone = {});
-    root.bitbone.UserControlBank = SourceSelector;
+    root.bitbone.SourceSelector = SourceSelector;
 
 }(this, host, Backbone, _));
 
@@ -1568,11 +1568,11 @@
 
             this.set('canHoldNoteData', BooleanValue.create(api.getCanHoldNoteData()));
 
-            this.set('clipLauncherSlots', ClipLauncherSlots.create(api.getClipClipLauncherSlots()));
+            this.set('clipLauncherSlots', ClipLauncherSlots.create(api.getClipLauncherSlots()));
 
             this.set('matrixQueuedForStop', BooleanValue.create(api.getIsMatrixQueuedForStop()));
 
-            this.set('matrixStoped', BooleanValue.create(api.getIsMatrixStoped()));
+            this.set('matrixStoped', BooleanValue.create(api.getIsMatrixStopped()));
 
             this.set('primaryDevice', Device.create(api.getPrimaryDevice()));
 
