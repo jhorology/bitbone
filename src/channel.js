@@ -91,7 +91,7 @@
 
             this.set('exists', BooleanValue.create(api.exists()));
             this.set('mute',BooleanValue.create(api.getMute()));
-            this.set('pan', AutomatableRangedValue.create(api.getMute(),
+            this.set('pan', AutomatableRangedValue.create(api.getPan(),
                                                           {range:options.panRange}));
             var sends = new AutomatableRangedValueCollection();
             for (i = 0; i < numSends; i++) {

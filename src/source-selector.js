@@ -4,7 +4,7 @@
     // inports
     var BooleanValue = root.bitbone.BooleanValue;
 
-    // UserControlBank
+    // SourceSelector
     // -------------
     //
     // Attributes
@@ -16,14 +16,14 @@
     //
     var SourceSelector = Backbone.Model.extend({
         initialize: function(models, options, api) {
-            this.initUserControlBank(models, options, api);
+            this.initSourceSelector(models, options, api);
             this.api = api;
             this.initialized = true;
         },
 
         initSourceSelector: function(attributes, options, api) {
-            this.set('hasAudioInputSelected', api.getHasAudioInputSelected());
-            this.set('hasNoteInputSelected', api.getHasNoteInputSelected());
+            this.set('hasAudioInputSelected', BooleanValue.create(api.getHasAudioInputSelected()));
+            this.set('hasNoteInputSelected', BooleanValue.create(api.getHasNoteInputSelected()));
         }
 
     },{
@@ -36,6 +36,6 @@
 
     // export
     root.bitbone || (root.bitbone = {});
-    root.bitbone.UserControlBank = SourceSelector;
+    root.bitbone.SourceSelector = SourceSelector;
 
 }(this, host, Backbone, _));

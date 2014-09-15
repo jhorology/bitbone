@@ -30,7 +30,7 @@
         initMacro: function(attributes, options, api) {
             var context = this;
 
-            api.addLabelbserver(
+            api.addLabelObserver(
                 _.isNumber(options.labelMaxChars) ? options.labelMaxChars : 12,
                 _.isString(options.labelFallback) ? options.labelFallback : '',
                 function(value) {
@@ -44,7 +44,7 @@
     },{
 
         create: function(automatedRangedValue, options) {
-            return new AutomatableRangedValue(null, options, automatedRangedValue);
+            return new Macro(null, options, automatedRangedValue);
         }
 
     });

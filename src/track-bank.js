@@ -3,6 +3,7 @@
 
     // inports
     var Track = root.bitbone.Track,
+        TrackCollection = root.bitbone.TrackCollection,
         ClipLauncherScenesOrSlots = root.bitbone.ClipLauncherScenesOrSlots;
 
     // TrackBank
@@ -19,6 +20,8 @@
     //   sceneScrollPosition  Number r
     //   trackScrollPosition  Number r
     //   trackScrollStepSize  Number r/w
+    //   clipLauncherScenes   ClipLauncherScenes
+    //   tracks               TrackCollection
     //
     // Options
     //
@@ -28,7 +31,7 @@
     //   numScenes            Number default:8
     //   trackScrollStepSize  Number default:1
     //
-    var TrackBank = Backbone.Collection.extend({
+    var TrackBank = Backbone.Model.extend({
         model: Track,
 
         initialize: function(models, options) {
@@ -44,7 +47,7 @@
             this.initialized = true;
         },
 
-        initTrack: function(models, options, api) {
+        initTrackBank: function(models, options, api) {
             var context = this,
                 numTracks = _.isNumber(options.numTracks) ? options.numTracks : 8,
                 numSends = _.isNumber(options.numSends) ? options.numSends : 8,
@@ -95,11 +98,11 @@
             this.set('clipLauncherScenes',
                      ClipLauncherScenesOrSlots.create(api.getClipLauncherScenes()));
 
+            var tracks = new TrackCollection();
             for(var i = 0; i < numTracks; i++) {
-                this.add(Track.create(api.getTrack(i)));
+                tracks.add(Track.create(api.getTrack(i)));
             }
-
-
+            this.set('tracks', tracks);
         },
 
         launchScenes: function(index) {

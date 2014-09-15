@@ -117,13 +117,13 @@
 
             collection = new AutomatableRangedValueCollection();
             for(i = 0; i < 8; i++) {
-                collection.add(AutomatableRangedValue.create(api.getCommonParamater(i)));
+                collection.add(AutomatableRangedValue.create(api.getCommonParameter(i)));
             }
             this.set('commonParameters', collection);
 
             collection = new AutomatableRangedValueCollection();
             for(i = 0; i < 8; i++) {
-                collection.add(AutomatableRangedValue.create(api.getEnvelopeParamater(i)));
+                collection.add(AutomatableRangedValue.create(api.getEnvelopeParameter(i)));
             }
             this.set('envelopeParameters', collection);
 
@@ -141,7 +141,7 @@
 
             collection = new AutomatableRangedValueCollection();
             for(i = 0; i < 8; i++) {
-                collection.add(AutomatableRangedValue.create(api.getParamater(i)));
+                collection.add(AutomatableRangedValue.create(api.getParameter(i)));
             }
             this.set('parameters', collection);
         },

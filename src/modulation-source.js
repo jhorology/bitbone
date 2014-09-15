@@ -1,7 +1,7 @@
 (function(root, bitwig, Backbone, _) {
     'use strict';
 
-    // Macro
+    // ModulationSource
     // -------------
     //
     // Attributes

@@ -98,7 +98,7 @@
 
         // factrory method
         create: function(options) {
-            return new Track(undefined, options);
+            return new CursorTrack(undefined, options);
         }
 
     });

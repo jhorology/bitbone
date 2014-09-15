@@ -102,11 +102,11 @@
 
             this.set('canHoldNoteData', BooleanValue.create(api.getCanHoldNoteData()));
 
-            this.set('clipLauncherSlots', ClipLauncherSlots.create(api.getClipClipLauncherSlots()));
+            this.set('clipLauncherSlots', ClipLauncherSlots.create(api.getClipLauncherSlots()));
 
             this.set('matrixQueuedForStop', BooleanValue.create(api.getIsMatrixQueuedForStop()));
 
-            this.set('matrixStoped', BooleanValue.create(api.getIsMatrixStoped()));
+            this.set('matrixStoped', BooleanValue.create(api.getIsMatrixStopped()));
 
             this.set('primaryDevice', Device.create(api.getPrimaryDevice()));
 
@@ -143,8 +143,13 @@
 
     });
 
+    var TrackCollection = Backbone.Collection.extend({
+        model: Track
+    });
+
     // export
     root.bitbone || (root.bitbone = {});
     root.bitbone.Track = Track;
+    root.bitbone.TrackCollection = TrackCollection;
 
 }(this, host, Backbone, _));
