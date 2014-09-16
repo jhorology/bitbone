@@ -26,14 +26,14 @@
     //   name       string r
     //
     var ClipLauncherSlot =  ClipLauncherScenesOrSlot.extend({
-        initialize: function(attributes, options, api) {
-            this.initClipLauncherScenesOrSlot(attributes, options, api);
-            this.api = api;
+        initialize: function(attributes, options) {
+            this.initClipLauncherScenesOrSlot(attributes, options);
+            this.api = options.api;
             this.initialized = true;
         },
 
-        initClipLauncherSlot: function(attributes, options, api) {
-            this.initClipLauncherScenesOrSlot(attributes, options, api);
+        initClipLauncherSlot: function(attributes, options) {
+            this.initClipLauncherScenesOrSlot(attributes, options);
         },
 
         record: function() {
@@ -67,33 +67,33 @@
             this.initClipLauncherScenesOrSlots(models, options, api);
 
             api.addColorObserver(function(slot, r, g, b) {
-                context.add({slot:context.slotId(slot), color:{R:r, G:g, B:b}},
-                            {observed:true, merge:true});
+                context.add({slot:slot, color:{R:r, G:g, B:b}},
+                            {observed:true, merge:true, api:api});
             });
 
             api.addHasContentObserver(function(slot, value) {
-                context.add({slot:context.slotId(slot), hasContent:value},
-                            {observed:true, merge:true});
+                context.add({slot:slot, hasContent:value},
+                            {observed:true, merge:true, api:api});
             });
 
             api.addIsPlayingObserver(function(slot, value) {
-                context.add({slot:context.slotId(slot), playing:value},
-                            {observed:true, merge:true});
+                context.add({slot:slot, playing:value},
+                            {observed:true, merge:true, api:api});
             });
 
             api.addIsQueuedObserver(function(slot, value) {
-                context.add({slot:context.slotId(slot), queued:value},
-                            {observed:true, merge:true});
+                context.add({slot:slot, queued:value},
+                            {observed:true, merge:true, api:api});
             });
 
             api.addIsRecordingObserver(function(slot, value) {
-                context.add({slot:context.slotId(slot), recording:value},
-                            {observed:true, merge:true});
+                context.add({slot:slot, recording:value},
+                            {observed:true, merge:true, api:api});
             });
 
             api.addIsSelectedObserver(function(slot, value) {
-                context.add({slot:context.slotId(slot), selected:value},
-                            {observed:true, merge:true});
+                context.add({slot:slot, selected:value},
+                            {observed:true, merge:true, api:api});
             });
         },
 

@@ -12,12 +12,12 @@
     var ClipLauncherScenesOrSlot =  Backbone.Model.extend({
         idAttribute: 'slot',
         initialize: function(attributes, options, api) {
-            this.initClipLauncherScenesOrSlot(attributes, options, api);
-            this.api = api;
+            this.initClipLauncherScenesOrSlot(attributes, options);
+            this.api = options.api;
             this.initialized = true;
         },
 
-        initClipLauncherScenesOrSlot: function(attributes, options, api) {
+        initClipLauncherScenesOrSlot: function(attributes, options) {
         },
 
         // Bitwig API wrapper methods
@@ -25,11 +25,6 @@
 
         launch: function() {
             this.api.launch(this.get('slot'));
-        }
-    }, {
-        // factory method
-        create: function(attributes, options, api) {
-            return new ClipLauncherScenesOrSlots(attributes, options, api);
         }
     });
 
@@ -55,7 +50,7 @@
             api.addNameObserver(
                 function(slot, value) {
                     context.add({slot:context.slotId(slot), name:value},
-                                {observed:true, merge:true});
+                                {observed:true, merge:true, api:api});
                 });
         },
 
