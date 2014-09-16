@@ -30,9 +30,6 @@
     //   numSends      Number default 8
     //   nameMaxChars  Number default 12
     //   vuMeterRamge  boolean default 127
-    //   panRange      Number default 128
-    //   sendRange     Number default 128
-    //   volumeRange   Number default 128
     //
     // Events
     //   'note'       optional *options.useNoteEvent
@@ -49,14 +46,18 @@
             this.initialized = true;
         },
 
-        initChannel: function(attributes, options, channel) {
+        initChannel: function(attributes, options, api) {
             var context = this,
-                api = channel,
-                // options
-                numSends = _.isNumber(options.numSends) ? options.numSends : 8,
-                vuMeterRange = _.isNumber(options.vuMeterRange) ?
-                    options.vuMeterRange : 127,
                 i;
+
+            _.defaults(options, {
+                useNoteEvent: false,
+                useVuMeter: false,
+                numSends: 8,
+                nameMaxChars: 12,
+                nameFallback: '',
+                vuMeterRamge: 127
+            });
 
             api.addColorObserver(function(red, green, blue) {
                 context.set('color', {R:red, G:green, B:blue}, {observed:true});
@@ -67,7 +68,8 @@
             });
 
             api.addNameObserver(
-                _.isNumber(options.nameMaxChars) ? options.nameMaxChars :12, '',
+                options.nameMaxChars,
+                options.nameFallback,
                 function(value) {
                     context.set('name', value, {observed:true});
                 });
@@ -80,28 +82,25 @@
 
             if (options.useVuMeter) {
 
-                api.addVuMeterObserver(vuMeterRange, 0, true, function(value) {
+                api.addVuMeterObserver(options.vuMeterRange, 0, true, function(value) {
                     context.set('vuMeterLeft', value, {observed:true});
                 });
 
-                api.addVuMeterObserver(vuMeterRange, 1, true, function(value) {
+                api.addVuMeterObserver(options.vuMeterRange, 1, true, function(value) {
                     context.set('vuMeterRight', value, {observed:true});
                 });
             }
 
             this.set('exists', BooleanValue.create(api.exists()));
             this.set('mute',BooleanValue.create(api.getMute()));
-            this.set('pan', AutomatableRangedValue.create(api.getPan(),
-                                                          {range:options.panRange}));
+            this.set('pan', AutomatableRangedValue.create(api.getPan(), options.pan));
             var sends = new AutomatableRangedValueCollection();
-            for (i = 0; i < numSends; i++) {
-                sends.add(AutomatableRangedValue.create(api.getSend(i),
-                                                        {range:options.sendRange}));
+            for (i = 0; i < options.numSends; i++) {
+                sends.add(AutomatableRangedValue.create(api.getSend(i), options.send));
             }
             this.set('sends', sends);
             this.set('solo', BooleanValue.create(api.getSolo()));
-            this.set('volume', AutomatableRangedValue.
-                     create(api.getVolume(), {range:options.volumeRange}));
+            this.set('volume', AutomatableRangedValue.create(api.getVolume(), options.volume));
         },
 
         select: function() {

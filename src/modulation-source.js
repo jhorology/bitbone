@@ -21,6 +21,11 @@
 
         initModulationSource: function(attributes, options, api) {
             var context = this;
+            _.defaults(options, {
+                nameMaxChars: 12,
+                nameFallback: ''
+            });
+
 
             api.addIsMappingObserver(function(value) {
                 context.set('mapping', value, {observed:true});
@@ -31,8 +36,7 @@
                     this.api.toggleMapping();
             });
             api.addNameObserver(
-                _.isNumber(options.nameMaxChars) ? options.nameMaxChars : 12,
-                _.isString(options.nameFallback) ? options.nameFallback : '',
+                options.nameMaxChars, options.nameFallback,
                 function(value) {
                     context.set('name', value, {observed:true});
                 });

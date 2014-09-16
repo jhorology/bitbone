@@ -28,17 +28,24 @@
         },
 
         initMacro: function(attributes, options, api) {
+
+            _.defaults(options, {
+                labelMaxChars: 12,
+                labelFallback: ''
+            });
+
             var context = this;
 
             api.addLabelObserver(
-                _.isNumber(options.labelMaxChars) ? options.labelMaxChars : 12,
-                _.isString(options.labelFallback) ? options.labelFallback : '',
+                options.labelMaxChars,
+                options.labelFallback,
                 function(value) {
                     context.set('label', value, {observed:true});
                 });
 
-            this.set('amount', AutomatableRangedValue.create(api.getAmount(), options));
-            this.set('modulationSource', ModulationSource.create(api.getModulationSource()));
+            this.set('amount', AutomatableRangedValue.create(api.getAmount(), options.amount));
+            this.set('modulationSource',
+                     ModulationSource.create(api.getModulationSource(), options.modulationSource));
         }
 
     },{

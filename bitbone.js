@@ -24,6 +24,12 @@
         initApplication: function(attributes, options, api) {
             var context = this;
 
+            // options defualts
+            _.defaults(options, {
+                selectedModeMaxChars: 12,
+                selectedModeFallback: ''
+            });
+
             api.addHasActiveEngineObserver(function(value) {
                 context.set('hasActiveEngine', value, {observed: true});
             });
@@ -37,10 +43,8 @@
                 function(value) {
                     context.set('selectedMode', value, {observed: true});
                 },
-                _.isNumber(options.selectedModeMaxChars) ?
-                    options.selectedModeMaxChars : 12,
-                _.isString(options.selectedModeFallbackText) ?
-                    options.selectedModeFallback : ''
+                options.selectedModeMaxChars,
+                options.selectedModeFallback
             );
         },
 
@@ -212,8 +216,11 @@
     //
     var Arranger = Backbone.Model.extend({
         initialize: function(attributes, options) {
-            var api = Bitwig.createArranger(
-                _.isNumber(options.screenIndex) ? options.screenIndex : 0);
+            _.defaults(options, {
+                screenIndex: 0
+            });
+
+            var api = Bitwig.createArranger(options.screenIndex);
             this.initArranger(attributes, options, api);
             this.api = api;
             this.initialized = true;
@@ -290,9 +297,13 @@
         },
 
         initRangedValue: function (attributes, options, api) {
-            var context = this;
+            _.defaults(options, {
+                range: 128
+            });
 
-            this.range = _.isNumber(options.range) ? options.range : 128;
+            var context = this;
+            
+            this.range = options.range;
 
             api.addValueObserver(this.range, function (value) {
                 context.set('value', value, {observed: true});
@@ -372,16 +383,24 @@
 
             this.initRangedValue(attributes, options, api);
 
+            // options defaults
+            _.defaults(options, {
+                nameMaxChars: 12,
+                nameFallback: '',
+                textMaxChars: 12,
+                textFallback: ''
+            });
+
             api.addNameObserver(
-                _.isNumber(options.nameMaxChars) ? options.nameMaxChars : 12,
-                _.isString(options.nameFallback) ? options.nameFallback : '',
+                options.nameMaxChars,
+                options.nameFallback,
                 function(value) {
                     context.set('name', value, {observed:true});
                 });
 
             api.addValueDisplayObserver(
-                _.isNumber(options.textMaxChars) ? options.textMaxChars : 12,
-                _.isString(options.textFallback) ? options.textFallback : '',
+                options.textMaxChars,
+                options.textFallback,
                 function(value) {
                     context.set('text', value, {observed:true});
                 });
@@ -445,15 +464,6 @@
     //
     //   timeSeparator string default "."
     //
-    // extend RangedValue
-    // -------------
-    //
-    // Attributes
-    //   value   Number r/w
-    //
-    // Options
-    //   range   Number default 128
-    //
     var BeatTime = RangedValue.extend({
         initialize: function(attributes, options, api) {
             this.initBeatTime(attributes, options, api);
@@ -466,6 +476,15 @@
 
             this.initRangedValue(attributes, options, api);
 
+            // options defaults
+            _.defaults(options, {
+                separator: '.',
+                barsLen: 1,
+                beatsLen: 1,
+                subdivisionLen: 1,
+                ticksLen: 0
+            });
+
             api.addRawValueObserver(function(value) {
                 context.set('rawValue', value, {observed: true});
             });
@@ -474,8 +493,12 @@
             });
 
             api.addTimeObserver(
-                _.isString(options.timeSeparator) ? options.timeSeparator : '.',
-                1, 1, 1, 0, function(value) {
+                options.separator,
+                options.barsLen,
+                options.beatsLen,
+                options.subdivisionLen,
+                options.ticksLen,
+                function(value) {
                     context.set('text', value, {observed: true});
                 });
         },
@@ -582,9 +605,6 @@
     //   numSends      Number default 8
     //   nameMaxChars  Number default 12
     //   vuMeterRamge  boolean default 127
-    //   panRange      Number default 128
-    //   sendRange     Number default 128
-    //   volumeRange   Number default 128
     //
     // Events
     //   'note'       optional *options.useNoteEvent
@@ -601,14 +621,18 @@
             this.initialized = true;
         },
 
-        initChannel: function(attributes, options, channel) {
+        initChannel: function(attributes, options, api) {
             var context = this,
-                api = channel,
-                // options
-                numSends = _.isNumber(options.numSends) ? options.numSends : 8,
-                vuMeterRange = _.isNumber(options.vuMeterRange) ?
-                    options.vuMeterRange : 127,
                 i;
+
+            _.defaults(options, {
+                useNoteEvent: false,
+                useVuMeter: false,
+                numSends: 8,
+                nameMaxChars: 12,
+                nameFallback: '',
+                vuMeterRamge: 127
+            });
 
             api.addColorObserver(function(red, green, blue) {
                 context.set('color', {R:red, G:green, B:blue}, {observed:true});
@@ -619,7 +643,8 @@
             });
 
             api.addNameObserver(
-                _.isNumber(options.nameMaxChars) ? options.nameMaxChars :12, '',
+                options.nameMaxChars,
+                options.nameFallback,
                 function(value) {
                     context.set('name', value, {observed:true});
                 });
@@ -632,28 +657,25 @@
 
             if (options.useVuMeter) {
 
-                api.addVuMeterObserver(vuMeterRange, 0, true, function(value) {
+                api.addVuMeterObserver(options.vuMeterRange, 0, true, function(value) {
                     context.set('vuMeterLeft', value, {observed:true});
                 });
 
-                api.addVuMeterObserver(vuMeterRange, 1, true, function(value) {
+                api.addVuMeterObserver(options.vuMeterRange, 1, true, function(value) {
                     context.set('vuMeterRight', value, {observed:true});
                 });
             }
 
             this.set('exists', BooleanValue.create(api.exists()));
             this.set('mute',BooleanValue.create(api.getMute()));
-            this.set('pan', AutomatableRangedValue.create(api.getPan(),
-                                                          {range:options.panRange}));
+            this.set('pan', AutomatableRangedValue.create(api.getPan(), options.pan));
             var sends = new AutomatableRangedValueCollection();
-            for (i = 0; i < numSends; i++) {
-                sends.add(AutomatableRangedValue.create(api.getSend(i),
-                                                        {range:options.sendRange}));
+            for (i = 0; i < options.numSends; i++) {
+                sends.add(AutomatableRangedValue.create(api.getSend(i), options.send));
             }
             this.set('sends', sends);
             this.set('solo', BooleanValue.create(api.getSolo()));
-            this.set('volume', AutomatableRangedValue.
-                     create(api.getVolume(), {range:options.volumeRange}));
+            this.set('volume', AutomatableRangedValue.create(api.getVolume(), options.volume));
         },
 
         select: function() {
@@ -715,15 +737,12 @@
     //
     // Options
     //
-    //   oneBased     boolean default false
-    //
     var ClipLauncherScenesOrSlots =  Backbone.Collection.extend({
         model: ClipLauncherScenesOrSlot,
 
         initialize: function(models, options, api) {
             this.initClipLauncherScenesOrSlots(models, options, api);
             this.api = api;
-            this.oneBased = options.oneBase;
             this.initialized = true;
         },
 
@@ -731,13 +750,9 @@
             var context = this;
             api.addNameObserver(
                 function(slot, value) {
-                    context.add({slot:context.slotId(slot), name:value},
+                    context.add({slot:slot, name:value},
                                 {observed:true, merge:true, api:api});
                 });
-        },
-
-        slotId: function(slot) {
-            return this.oneBased ? slot + 1 : slot;
         },
 
         // Bitwig API wrapper methods
@@ -913,13 +928,18 @@
     //
     //   gridWidth              Numner default 128
     //   gridHeight             Numner default 128
-    //   accentRange            Number default 128
+    //   accent                 object RangedValue options
+    //
     var Clip = Backbone.Model.extend({
         initialize: function(attributes, options) {
-            var api = Bitwig.createCursorClip(
-                _.isNumber(options.griwdWidth) ? options.gridWidth : 128,
-                _.isNumber(options.griwdHeight) ? options.gridHeight : 128
-            );
+
+            _.defaults(options, {
+                gridWidth: 128,
+                gridHeight: 128
+                // accent:{} --> RangedValue
+            });
+
+            var api = Bitwig.createCursorClip(options.gridWidth, options.gridHeight);
             this.initClip(attributes, options, api);
             this.api = api;
             this.initialized = true;
@@ -945,7 +965,7 @@
             });
 
             this.set('shuffle', BooleanValue.create(api.getShuffle()));
-            this.set('accent', RangedValue.create(api.getAccent(), {range:options.accentRange}));
+            this.set('accent', RangedValue.create(api.getAccent(), options.accent));
 
         },
 
@@ -1039,6 +1059,11 @@
 
         initModulationSource: function(attributes, options, api) {
             var context = this;
+            _.defaults(options, {
+                nameMaxChars: 12,
+                nameFallback: ''
+            });
+
 
             api.addIsMappingObserver(function(value) {
                 context.set('mapping', value, {observed:true});
@@ -1049,8 +1074,7 @@
                     this.api.toggleMapping();
             });
             api.addNameObserver(
-                _.isNumber(options.nameMaxChars) ? options.nameMaxChars : 12,
-                _.isString(options.nameFallback) ? options.nameFallback : '',
+                options.nameMaxChars, options.nameFallback,
                 function(value) {
                     context.set('name', value, {observed:true});
                 });
@@ -1111,17 +1135,24 @@
         },
 
         initMacro: function(attributes, options, api) {
+
+            _.defaults(options, {
+                labelMaxChars: 12,
+                labelFallback: ''
+            });
+
             var context = this;
 
             api.addLabelObserver(
-                _.isNumber(options.labelMaxChars) ? options.labelMaxChars : 12,
-                _.isString(options.labelFallback) ? options.labelFallback : '',
+                options.labelMaxChars,
+                options.labelFallback,
                 function(value) {
                     context.set('label', value, {observed:true});
                 });
 
-            this.set('amount', AutomatableRangedValue.create(api.getAmount(), options));
-            this.set('modulationSource', ModulationSource.create(api.getModulationSource()));
+            this.set('amount', AutomatableRangedValue.create(api.getAmount(), options.amount));
+            this.set('modulationSource',
+                     ModulationSource.create(api.getModulationSource(), options.modulationSource));
         }
 
     },{
@@ -1198,13 +1229,24 @@
         },
 
         initDevice: function(attributes, options, api) {
+
+            // options defaults
+            _.defaults(options, {
+                modulationSourceMaxChars: 12,
+                modulationSourceFallback: '',
+                nameMaxChars: 12,
+                nameFallback: '',
+                presetCategoryMaxChars: 12,
+                presetCategoryFallback: '',
+                presetCreatorMaxChars: 12,
+                presetCreatorFallback: ''
+            });
+
             var context = this, i, collection;
 
             api.addActiveModulationSourceObserver(
-                _.isNumber(options.modulationSourceMaxChars) ?
-                    options.modulationSourceMaxChars : 12,
-                _.isString(options.modulationSourceFallback) ?
-                    options.modulationSourceFallback : '',
+                options.modulationSourceMaxChars,
+                options.modulationSourceFallback,
                 function(value) {
                     context.set('activeModulationSource', value, {observed:true});
                 });
@@ -1218,8 +1260,8 @@
             });
 
             api.addNameObserver(
-                _.isNumber(options.nameMaxChars) ? options.nameMaxChars : 12,
-                _.isString(options.nameFallback) ? options.nameFallback : '',
+                options.nameMaxChars,
+                options.nameFallback,
                 function(value) {
                     context.set('name', value, {observed:true});
                 });
@@ -1244,8 +1286,8 @@
             });
 
             api.addPresetCategoryObserver(
-                _.isNumber(options.presetCategoryMaxChars) ? options.presetCategoryaxChars : 12,
-                _.isString(options.presetCategoryFallback) ? options.presetCategoryFallback : '',
+                options.presetCategoryMaxChars,
+                options.presetCategoryFallback,
                 function(value) {
                     context.set('presetCategory', value, {observed:true});
                 });
@@ -1255,8 +1297,8 @@
             });
 
             api.addPresetCreatorObserver(
-                _.isNumber(options.presetCreatorMaxChars) ? options.presetCreatoraxChars : 12,
-                _.isString(options.presetCreatorFallback) ? options.presetCreatorFallback : '',
+                options.presetCreatorMaxChars,
+                options.presetCreatorFallback,
                 function(value) {
                     context.set('presetCreator', value, {observed:true});
                 });
@@ -1491,39 +1533,6 @@
     //   trackTypeFallback   string default:''
     //   usePitchNames       boolean default false
     //
-    // Channel
-    // -------------
-    //
-    // Attributes
-    //
-    //   color        object {R,G,B} r
-    //   selected     boolean r
-    //   name         string r
-    //   vuMeterLeft  Number r  *optional options.useVuMeter
-    //   vuMeterRight Number r  *optional options.useVuMeter
-    //   exists       BooleanValue  r
-    //   mute         BooleanValue  r
-    //   pan          AutomatableRangedValue r
-    //   sends        AutomatableRangedValueCollection t
-    //   volume       AutomatableRangedValue r
-    //
-    // Options
-    //
-    //   useNoteEvent  boolean default false
-    //   useVuMeter    boolean default false
-    //   numSends      Number default 8
-    //   nameMaxChars  Number default 12
-    //   vuMeterRamge  boolean default 127
-    //   panRange      Number default 128
-    //   sendRange     Number default 128
-    //   volumeRange   Number default 128
-    //
-    // Events
-    //   'note'       optional *options.useNoteEvent
-    //                args: on/off boolean,
-    //                      note#
-    //                      velocity
-    //
     var Track = Channel.extend({
 
         initialize: function(attributes, options, track) {
@@ -1534,6 +1543,13 @@
 
         initTrack: function(attributes, options, api) {
             var context = this;
+
+            // options default
+            _.defaults(options, {
+                usePitchName: false,
+                trackTypeMaxChars: 12,
+                trackTypeFallbacks: ''
+            });
 
             this.initChannel(attributes, options, api);
 
@@ -1551,27 +1567,34 @@
             }
 
             api.addTrackTypeObserver(
-                _.isNumber(options.trackTypeMaxChars) ? options.trackTypeMaxChars : 6,
-                _.isNumber(options.trackTypeFallback) ? options.trackTypeFallback : '',
+                options.trackTypeMaxChars, options.trackTypeFallback,
                 function(value) {
                     context.set('trackType', value);
                 });
 
-            this.set('arm', BooleanValue.create(api.getArm()));
+            this.set('arm', BooleanValue.create(api.getArm(), options.arm));
 
-            this.set('canHoldAudioData', BooleanValue.create(api.getCanHoldAudioData()));
+            this.set('canHoldAudioData',
+                     BooleanValue.create(api.getCanHoldAudioData(), options.canHoldAudioData));
 
-            this.set('canHoldNoteData', BooleanValue.create(api.getCanHoldNoteData()));
+            this.set('canHoldNoteData',
+                     BooleanValue.create(api.getCanHoldNoteData(), options.canHoldNoteData));
 
-            this.set('clipLauncherSlots', ClipLauncherSlots.create(api.getClipLauncherSlots()));
+            this.set('clipLauncherSlots',
+                     ClipLauncherSlots.create(api.getClipLauncherSlots(),
+                                              options.clipLauncherSlots));
 
-            this.set('matrixQueuedForStop', BooleanValue.create(api.getIsMatrixQueuedForStop()));
+            this.set('matrixQueuedForStop',
+                     BooleanValue.create(api.getIsMatrixQueuedForStop(),
+                                         options.matrixQueuedForStop));
 
-            this.set('matrixStoped', BooleanValue.create(api.getIsMatrixStopped()));
+            this.set('matrixStoped',
+                     BooleanValue.create(api.getIsMatrixStopped(), options.matrixStoped));
 
-            this.set('primaryDevice', Device.create(api.getPrimaryDevice()));
+            this.set('primaryDevice', Device.create(api.getPrimaryDevice(), options.primaryDevice));
 
-            this.set('sourceSelector', SourceSelector.create(api.getSourceSelector()));
+            this.set('sourceSelector',
+                SourceSelector.create(api.getSourceSelector(), options.sourceSelector));
         },
 
         playNote: function(key, vel) {
@@ -1687,10 +1710,14 @@
     var CursorTrack = Track.extend({
 
         initialize: function(attributes, options) {
+            // options defaults
+            _.defaults(options, {
+                numSends: 8,
+                numScenes: 8
+            });
+
             var cursorTrack = Bitwig.createCursorTrack(
-                _.isNumber(options.numSends) ? options.numSends : 8,
-                _.isNumber(options.numScenes) ? options.numScenes : 8
-            );
+                options.numSends, options.numScenes);
 
             this.initCursorTrack(attributes, options, cursorTrack);
             this.api = cursorTrack;
@@ -1744,13 +1771,6 @@
     //   shuffleRate    AutomatableRangedValue
     //   enabled        AutomatableRangedValue
     //
-    // Options
-    //    accentAmountRange   Number default 128
-    //    accentRateRange     Number default 128
-    //    accentPhaseRange    Number default 128
-    //    shuffleAmountRange  Number default 128
-    //    shuffleRateRange    Number default 128
-    //
     var Groove = Backbone.Model.extend({
         initialize: function(attributes, options) {
             var api = Bitwig.createGroove();
@@ -1760,25 +1780,20 @@
         },
 
         initGroove: function(attributes, options, api) {
-            this.set('accentAmount',  AutomatableRangedValue.create(api.getAccentAmount(), {
-                range: options.accentAmountRange
-            }));
+            this.set('accentAmount',
+                     AutomatableRangedValue.create(api.getAccentAmount(), options.accentAmount));
 
-            this.set('accentRate', AutomatableRangedValue.create(api.getAccentRate(), {
-                range: options.accentRateRange
-            }));
+            this.set('accentRate',
+                     AutomatableRangedValue.create(api.getAccentRate(), options.accentRate));
 
-            this.set('accentPhase', AutomatableRangedValue.create(api.getAccentPhase(), {
-                range: options.accentPhaseRange
-            }));
+            this.set('accentPhase',
+                     AutomatableRangedValue.create(api.getAccentPhase(), options.accentPhase));
 
-            this.set('shuffleAmount', AutomatableRangedValue.create(api.getShuffleAmount(), {
-                range: options.shuffleAmountRange
-            }));
+            this.set('shuffleAmount',
+                     AutomatableRangedValue.create(api.getShuffleAmount(), options.shuffleAmount));
 
-            this.set('shuffleRate', AutomatableRangedValue.create(api.getShuffleRate(), {
-                range: options.shuffleRateRange
-            }));
+            this.set('shuffleRate',
+                     AutomatableRangedValue.create(api.getShuffleRate(), options.shuffleRate));
 
             this.set('enabled', AutomatableRangedValue.create(api.getEnabled()));
         }
@@ -1819,11 +1834,13 @@
     //
     var Mixer = Backbone.Model.extend({
         initialize: function(models, options) {
+            _.defaults(options, {
+                perspective: '',
+                screenIndex: 0
+            });
+
             // TODO what's perspective?
-            var mixer = Bitwig.createMixer(
-                _.isString(options.perspective) ? options.perspective : '',
-                _.isNumber(options.screenIndex) ? options.screenIndex : 0
-            );
+            var mixer = Bitwig.createMixer(options.perspective, options.screenIndex);
 
             this.initMixer(models, options, mixer);
             this.api = mixer;
@@ -2079,12 +2096,19 @@
         model: Track,
 
         initialize: function(models, options) {
-            var numTracks = _.isNumber(options.numTracks) ? options.numTracks : 8,
-                numSends = _.isNumber(options.numSends) ? options.numSends : 8,
-                numScenes = _.isNumber(options.numScenes) ? options.numScenes : 8,
-                trackBank = options.main ?
-                    Bitwig.createMainTrackBank(numTracks, numSends, numScenes) :
-                    Bitwig.createTrackBank(numTracks, numSends, numScenes);
+            _.defaults(options, {
+                main: false,
+                numTracks: 8,
+                numSends: 8,
+                numScenes: 8,
+                trackScrollStepSize: 1
+            });
+            
+            var trackBank = options.main ?
+                    Bitwig.createMainTrackBank(
+                        options.numTracks, options.numSends, options.numScenes) :
+                    Bitwig.createTrackBank(
+                        options.numTracks, options.numSends, options.numScenes);
 
             this.initTrackBank(models, options, trackBank);
             this.api = trackBank;
@@ -2092,10 +2116,7 @@
         },
 
         initTrackBank: function(models, options, api) {
-            var context = this,
-                numTracks = _.isNumber(options.numTracks) ? options.numTracks : 8,
-                numSends = _.isNumber(options.numSends) ? options.numSends : 8,
-                numScenes = _.isNumber(options.numScenes) ? options.numScenes : 8;
+            var context = this;
 
             api.addCanScrollScenesDownObserver(function(value) {
                 context.set('canScrollScenesDown', value, {observed:true});
@@ -2129,10 +2150,8 @@
                 context.set('trackScrollPosition', value, {observed:true});
             }, -1 );
 
-            var trackScrollStepSize = _.isNumber(options.trackScrollStepSize) ?
-                    options.trackScrollStepSize : 1;
-            api.setTrackScrollStepSize(trackScrollStepSize);
-            this.set('trackScrollStepSize', trackScrollStepSize);
+            api.setTrackScrollStepSize(options.trackScrollStepSize);
+            this.set('trackScrollStepSize', options.trackScrollStepSize);
             this.on('change:trackScrollStepSize', function (model, value, options) {
                 // if changed by user script
                 options.observed || this.initialized &&
@@ -2140,11 +2159,12 @@
             });
 
             this.set('clipLauncherScenes',
-                     ClipLauncherScenesOrSlots.create(api.getClipLauncherScenes()));
+                     ClipLauncherScenesOrSlots.create(api.getClipLauncherScenes(),
+                                                      options.clipLauncherScenes));
 
             var tracks = new TrackCollection();
-            for(var i = 0; i < numTracks; i++) {
-                tracks.add(Track.create(api.getTrack(i)));
+            for(var i = 0; i < options.numTracks; i++) {
+                tracks.add(Track.create(api.getTrack(i), options.track));
             }
             this.set('tracks', tracks);
         },
@@ -2258,11 +2278,6 @@
     //   postion              BeatTime r
     //   tempo                RangedValue r
     //
-    // Options
-    //
-    //    metronomeVolumeRange  Number default 128
-    //    timeSeparator         string default "."
-    //
     var Transport = Backbone.Model.extend({
         // instance methods
 
@@ -2276,6 +2291,13 @@
 
         initTransport: function(attributes, options, api) {
             var context = this;
+
+            _.defaults(options, {
+                tempo: {
+                    range: 666
+                }
+            });
+            
 
             api.addAutomationOverrideObserver(function(value) {
                 context.set('automationOverride', value);
@@ -2355,7 +2377,7 @@
                 // if changed by user script
                 options.observed || this.initialized &&
                     this.api.setMetronomeValue(
-                        value, _.isNumber(options.metronomeVolumeRange) ? options.range : 128);
+                        value, _.isNumber(options.range) ? options.range : 128);
             });
 
             api.addOverdubObserver(function(value) {
@@ -2384,13 +2406,13 @@
                 options.observed || this.initialized && this.api.togglePunchOut();
             });
 
-            this.set('inPosition', BeatTime.create(api.getInPosition(), options));
+            this.set('inPosition', BeatTime.create(api.getInPosition(), options.inPostion));
 
-            this.set('outPosition', BeatTime.create(api.getOutPosition(), options));
+            this.set('outPosition', BeatTime.create(api.getOutPosition(), options.outPosition));
 
-            this.set('position', BeatTime.create(api.getPosition(), options));
+            this.set('position', BeatTime.create(api.getPosition(), options.position));
 
-            this.set('tempo', RangedValue.create(api.getTempo(), {range: 666}));
+            this.set('tempo', RangedValue.create(api.getTempo(), options.tempo));
         },
 
         fastForward: function() {
@@ -2538,7 +2560,7 @@
     root.bitbone || (root.bitbone = {});
     root.bitbone.Transport = Transport;
 
-}(this, this.host, this.Backbone, this._));
+}(this, host, Backbone, _));
 
 (function(root, Bitwig, Backbone, _) {
     'use strict';

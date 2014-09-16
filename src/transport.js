@@ -30,11 +30,6 @@
     //   postion              BeatTime r
     //   tempo                RangedValue r
     //
-    // Options
-    //
-    //    metronomeVolumeRange  Number default 128
-    //    timeSeparator         string default "."
-    //
     var Transport = Backbone.Model.extend({
         // instance methods
 
@@ -48,6 +43,13 @@
 
         initTransport: function(attributes, options, api) {
             var context = this;
+
+            _.defaults(options, {
+                tempo: {
+                    range: 666
+                }
+            });
+            
 
             api.addAutomationOverrideObserver(function(value) {
                 context.set('automationOverride', value);
@@ -127,7 +129,7 @@
                 // if changed by user script
                 options.observed || this.initialized &&
                     this.api.setMetronomeValue(
-                        value, _.isNumber(options.metronomeVolumeRange) ? options.range : 128);
+                        value, _.isNumber(options.range) ? options.range : 128);
             });
 
             api.addOverdubObserver(function(value) {
@@ -156,13 +158,13 @@
                 options.observed || this.initialized && this.api.togglePunchOut();
             });
 
-            this.set('inPosition', BeatTime.create(api.getInPosition(), options));
+            this.set('inPosition', BeatTime.create(api.getInPosition(), options.inPostion));
 
-            this.set('outPosition', BeatTime.create(api.getOutPosition(), options));
+            this.set('outPosition', BeatTime.create(api.getOutPosition(), options.outPosition));
 
-            this.set('position', BeatTime.create(api.getPosition(), options));
+            this.set('position', BeatTime.create(api.getPosition(), options.position));
 
-            this.set('tempo', RangedValue.create(api.getTempo(), {range: 666}));
+            this.set('tempo', RangedValue.create(api.getTempo(), options.tempo));
         },
 
         fastForward: function() {
@@ -310,4 +312,4 @@
     root.bitbone || (root.bitbone = {});
     root.bitbone.Transport = Transport;
 
-}(this, this.host, this.Backbone, this._));
+}(this, host, Backbone, _));

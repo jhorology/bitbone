@@ -16,15 +16,6 @@
     //
     //   timeSeparator string default "."
     //
-    // extend RangedValue
-    // -------------
-    //
-    // Attributes
-    //   value   Number r/w
-    //
-    // Options
-    //   range   Number default 128
-    //
     var BeatTime = RangedValue.extend({
         initialize: function(attributes, options, api) {
             this.initBeatTime(attributes, options, api);
@@ -37,6 +28,15 @@
 
             this.initRangedValue(attributes, options, api);
 
+            // options defaults
+            _.defaults(options, {
+                separator: '.',
+                barsLen: 1,
+                beatsLen: 1,
+                subdivisionLen: 1,
+                ticksLen: 0
+            });
+
             api.addRawValueObserver(function(value) {
                 context.set('rawValue', value, {observed: true});
             });
@@ -45,8 +45,12 @@
             });
 
             api.addTimeObserver(
-                _.isString(options.timeSeparator) ? options.timeSeparator : '.',
-                1, 1, 1, 0, function(value) {
+                options.separator,
+                options.barsLen,
+                options.beatsLen,
+                options.subdivisionLen,
+                options.ticksLen,
+                function(value) {
                     context.set('text', value, {observed: true});
                 });
         },

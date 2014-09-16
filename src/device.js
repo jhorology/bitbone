@@ -51,13 +51,24 @@
         },
 
         initDevice: function(attributes, options, api) {
+
+            // options defaults
+            _.defaults(options, {
+                modulationSourceMaxChars: 12,
+                modulationSourceFallback: '',
+                nameMaxChars: 12,
+                nameFallback: '',
+                presetCategoryMaxChars: 12,
+                presetCategoryFallback: '',
+                presetCreatorMaxChars: 12,
+                presetCreatorFallback: ''
+            });
+
             var context = this, i, collection;
 
             api.addActiveModulationSourceObserver(
-                _.isNumber(options.modulationSourceMaxChars) ?
-                    options.modulationSourceMaxChars : 12,
-                _.isString(options.modulationSourceFallback) ?
-                    options.modulationSourceFallback : '',
+                options.modulationSourceMaxChars,
+                options.modulationSourceFallback,
                 function(value) {
                     context.set('activeModulationSource', value, {observed:true});
                 });
@@ -71,8 +82,8 @@
             });
 
             api.addNameObserver(
-                _.isNumber(options.nameMaxChars) ? options.nameMaxChars : 12,
-                _.isString(options.nameFallback) ? options.nameFallback : '',
+                options.nameMaxChars,
+                options.nameFallback,
                 function(value) {
                     context.set('name', value, {observed:true});
                 });
@@ -97,8 +108,8 @@
             });
 
             api.addPresetCategoryObserver(
-                _.isNumber(options.presetCategoryMaxChars) ? options.presetCategoryaxChars : 12,
-                _.isString(options.presetCategoryFallback) ? options.presetCategoryFallback : '',
+                options.presetCategoryMaxChars,
+                options.presetCategoryFallback,
                 function(value) {
                     context.set('presetCategory', value, {observed:true});
                 });
@@ -108,8 +119,8 @@
             });
 
             api.addPresetCreatorObserver(
-                _.isNumber(options.presetCreatorMaxChars) ? options.presetCreatoraxChars : 12,
-                _.isString(options.presetCreatorFallback) ? options.presetCreatorFallback : '',
+                options.presetCreatorMaxChars,
+                options.presetCreatorFallback,
                 function(value) {
                     context.set('presetCreator', value, {observed:true});
                 });

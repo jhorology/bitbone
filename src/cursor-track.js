@@ -70,10 +70,14 @@
     var CursorTrack = Track.extend({
 
         initialize: function(attributes, options) {
+            // options defaults
+            _.defaults(options, {
+                numSends: 8,
+                numScenes: 8
+            });
+
             var cursorTrack = Bitwig.createCursorTrack(
-                _.isNumber(options.numSends) ? options.numSends : 8,
-                _.isNumber(options.numScenes) ? options.numScenes : 8
-            );
+                options.numSends, options.numScenes);
 
             this.initCursorTrack(attributes, options, cursorTrack);
             this.api = cursorTrack;

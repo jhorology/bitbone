@@ -24,6 +24,12 @@
         initApplication: function(attributes, options, api) {
             var context = this;
 
+            // options defualts
+            _.defaults(options, {
+                selectedModeMaxChars: 12,
+                selectedModeFallback: ''
+            });
+
             api.addHasActiveEngineObserver(function(value) {
                 context.set('hasActiveEngine', value, {observed: true});
             });
@@ -37,10 +43,8 @@
                 function(value) {
                     context.set('selectedMode', value, {observed: true});
                 },
-                _.isNumber(options.selectedModeMaxChars) ?
-                    options.selectedModeMaxChars : 12,
-                _.isString(options.selectedModeFallbackText) ?
-                    options.selectedModeFallback : ''
+                options.selectedModeMaxChars,
+                options.selectedModeFallback
             );
         },
 

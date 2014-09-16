@@ -35,12 +35,19 @@
         model: Track,
 
         initialize: function(models, options) {
-            var numTracks = _.isNumber(options.numTracks) ? options.numTracks : 8,
-                numSends = _.isNumber(options.numSends) ? options.numSends : 8,
-                numScenes = _.isNumber(options.numScenes) ? options.numScenes : 8,
-                trackBank = options.main ?
-                    Bitwig.createMainTrackBank(numTracks, numSends, numScenes) :
-                    Bitwig.createTrackBank(numTracks, numSends, numScenes);
+            _.defaults(options, {
+                main: false,
+                numTracks: 8,
+                numSends: 8,
+                numScenes: 8,
+                trackScrollStepSize: 1
+            });
+            
+            var trackBank = options.main ?
+                    Bitwig.createMainTrackBank(
+                        options.numTracks, options.numSends, options.numScenes) :
+                    Bitwig.createTrackBank(
+                        options.numTracks, options.numSends, options.numScenes);
 
             this.initTrackBank(models, options, trackBank);
             this.api = trackBank;
@@ -48,10 +55,7 @@
         },
 
         initTrackBank: function(models, options, api) {
-            var context = this,
-                numTracks = _.isNumber(options.numTracks) ? options.numTracks : 8,
-                numSends = _.isNumber(options.numSends) ? options.numSends : 8,
-                numScenes = _.isNumber(options.numScenes) ? options.numScenes : 8;
+            var context = this;
 
             api.addCanScrollScenesDownObserver(function(value) {
                 context.set('canScrollScenesDown', value, {observed:true});
@@ -85,10 +89,8 @@
                 context.set('trackScrollPosition', value, {observed:true});
             }, -1 );
 
-            var trackScrollStepSize = _.isNumber(options.trackScrollStepSize) ?
-                    options.trackScrollStepSize : 1;
-            api.setTrackScrollStepSize(trackScrollStepSize);
-            this.set('trackScrollStepSize', trackScrollStepSize);
+            api.setTrackScrollStepSize(options.trackScrollStepSize);
+            this.set('trackScrollStepSize', options.trackScrollStepSize);
             this.on('change:trackScrollStepSize', function (model, value, options) {
                 // if changed by user script
                 options.observed || this.initialized &&
@@ -96,11 +98,12 @@
             });
 
             this.set('clipLauncherScenes',
-                     ClipLauncherScenesOrSlots.create(api.getClipLauncherScenes()));
+                     ClipLauncherScenesOrSlots.create(api.getClipLauncherScenes(),
+                                                      options.clipLauncherScenes));
 
             var tracks = new TrackCollection();
-            for(var i = 0; i < numTracks; i++) {
-                tracks.add(Track.create(api.getTrack(i)));
+            for(var i = 0; i < options.numTracks; i++) {
+                tracks.add(Track.create(api.getTrack(i), options.track));
             }
             this.set('tracks', tracks);
         },

@@ -19,9 +19,13 @@
         },
 
         initRangedValue: function (attributes, options, api) {
-            var context = this;
+            _.defaults(options, {
+                range: 128
+            });
 
-            this.range = _.isNumber(options.range) ? options.range : 128;
+            var context = this;
+            
+            this.range = options.range;
 
             api.addValueObserver(this.range, function (value) {
                 context.set('value', value, {observed: true});

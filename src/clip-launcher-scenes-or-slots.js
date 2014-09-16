@@ -33,15 +33,12 @@
     //
     // Options
     //
-    //   oneBased     boolean default false
-    //
     var ClipLauncherScenesOrSlots =  Backbone.Collection.extend({
         model: ClipLauncherScenesOrSlot,
 
         initialize: function(models, options, api) {
             this.initClipLauncherScenesOrSlots(models, options, api);
             this.api = api;
-            this.oneBased = options.oneBase;
             this.initialized = true;
         },
 
@@ -49,13 +46,9 @@
             var context = this;
             api.addNameObserver(
                 function(slot, value) {
-                    context.add({slot:context.slotId(slot), name:value},
+                    context.add({slot:slot, name:value},
                                 {observed:true, merge:true, api:api});
                 });
-        },
-
-        slotId: function(slot) {
-            return this.oneBased ? slot + 1 : slot;
         },
 
         // Bitwig API wrapper methods

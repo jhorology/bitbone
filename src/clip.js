@@ -21,13 +21,18 @@
     //
     //   gridWidth              Numner default 128
     //   gridHeight             Numner default 128
-    //   accentRange            Number default 128
+    //   accent                 object RangedValue options
+    //
     var Clip = Backbone.Model.extend({
         initialize: function(attributes, options) {
-            var api = Bitwig.createCursorClip(
-                _.isNumber(options.griwdWidth) ? options.gridWidth : 128,
-                _.isNumber(options.griwdHeight) ? options.gridHeight : 128
-            );
+
+            _.defaults(options, {
+                gridWidth: 128,
+                gridHeight: 128
+                // accent:{} --> RangedValue
+            });
+
+            var api = Bitwig.createCursorClip(options.gridWidth, options.gridHeight);
             this.initClip(attributes, options, api);
             this.api = api;
             this.initialized = true;
@@ -53,7 +58,7 @@
             });
 
             this.set('shuffle', BooleanValue.create(api.getShuffle()));
-            this.set('accent', RangedValue.create(api.getAccent(), {range:options.accentRange}));
+            this.set('accent', RangedValue.create(api.getAccent(), options.accent));
 
         },
 

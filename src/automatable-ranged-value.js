@@ -40,16 +40,24 @@
 
             this.initRangedValue(attributes, options, api);
 
+            // options defaults
+            _.defaults(options, {
+                nameMaxChars: 12,
+                nameFallback: '',
+                textMaxChars: 12,
+                textFallback: ''
+            });
+
             api.addNameObserver(
-                _.isNumber(options.nameMaxChars) ? options.nameMaxChars : 12,
-                _.isString(options.nameFallback) ? options.nameFallback : '',
+                options.nameMaxChars,
+                options.nameFallback,
                 function(value) {
                     context.set('name', value, {observed:true});
                 });
 
             api.addValueDisplayObserver(
-                _.isNumber(options.textMaxChars) ? options.textMaxChars : 12,
-                _.isString(options.textFallback) ? options.textFallback : '',
+                options.textMaxChars,
+                options.textFallback,
                 function(value) {
                     context.set('text', value, {observed:true});
                 });

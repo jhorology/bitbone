@@ -16,8 +16,11 @@
     //
     var Arranger = Backbone.Model.extend({
         initialize: function(attributes, options) {
-            var api = Bitwig.createArranger(
-                _.isNumber(options.screenIndex) ? options.screenIndex : 0);
+            _.defaults(options, {
+                screenIndex: 0
+            });
+
+            var api = Bitwig.createArranger(options.screenIndex);
             this.initArranger(attributes, options, api);
             this.api = api;
             this.initialized = true;

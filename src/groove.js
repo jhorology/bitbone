@@ -16,13 +16,6 @@
     //   shuffleRate    AutomatableRangedValue
     //   enabled        AutomatableRangedValue
     //
-    // Options
-    //    accentAmountRange   Number default 128
-    //    accentRateRange     Number default 128
-    //    accentPhaseRange    Number default 128
-    //    shuffleAmountRange  Number default 128
-    //    shuffleRateRange    Number default 128
-    //
     var Groove = Backbone.Model.extend({
         initialize: function(attributes, options) {
             var api = Bitwig.createGroove();
@@ -32,25 +25,20 @@
         },
 
         initGroove: function(attributes, options, api) {
-            this.set('accentAmount',  AutomatableRangedValue.create(api.getAccentAmount(), {
-                range: options.accentAmountRange
-            }));
+            this.set('accentAmount',
+                     AutomatableRangedValue.create(api.getAccentAmount(), options.accentAmount));
 
-            this.set('accentRate', AutomatableRangedValue.create(api.getAccentRate(), {
-                range: options.accentRateRange
-            }));
+            this.set('accentRate',
+                     AutomatableRangedValue.create(api.getAccentRate(), options.accentRate));
 
-            this.set('accentPhase', AutomatableRangedValue.create(api.getAccentPhase(), {
-                range: options.accentPhaseRange
-            }));
+            this.set('accentPhase',
+                     AutomatableRangedValue.create(api.getAccentPhase(), options.accentPhase));
 
-            this.set('shuffleAmount', AutomatableRangedValue.create(api.getShuffleAmount(), {
-                range: options.shuffleAmountRange
-            }));
+            this.set('shuffleAmount',
+                     AutomatableRangedValue.create(api.getShuffleAmount(), options.shuffleAmount));
 
-            this.set('shuffleRate', AutomatableRangedValue.create(api.getShuffleRate(), {
-                range: options.shuffleRateRange
-            }));
+            this.set('shuffleRate',
+                     AutomatableRangedValue.create(api.getShuffleRate(), options.shuffleRate));
 
             this.set('enabled', AutomatableRangedValue.create(api.getEnabled()));
         }

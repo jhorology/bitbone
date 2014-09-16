@@ -20,11 +20,13 @@
     //
     var Mixer = Backbone.Model.extend({
         initialize: function(models, options) {
+            _.defaults(options, {
+                perspective: '',
+                screenIndex: 0
+            });
+
             // TODO what's perspective?
-            var mixer = Bitwig.createMixer(
-                _.isString(options.perspective) ? options.perspective : '',
-                _.isNumber(options.screenIndex) ? options.screenIndex : 0
-            );
+            var mixer = Bitwig.createMixer(options.perspective, options.screenIndex);
 
             this.initMixer(models, options, mixer);
             this.api = mixer;
