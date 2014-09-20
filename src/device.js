@@ -66,12 +66,9 @@
 
             var context = this, i, collection;
 
-            api.addActiveModulationSourceObserver(
-                options.modulationSourceMaxChars,
-                options.modulationSourceFallback,
-                function(value) {
-                    context.set('activeModulationSource', value, {observed:true});
-                });
+            api.addActiveModulationSourceObserver(options.modulationSourceMaxChars, options.modulationSourceFallback, function(value) {
+                context.set('activeModulationSource', value, {observed:true});
+            });
 
             api.addHasSelectedDeviceObserver(function(value) {
                 context.set('hasSelectedDevice', value, {observed:true});
@@ -81,12 +78,9 @@
                 context.set('enabled', value, {observed:true});
             });
 
-            api.addNameObserver(
-                options.nameMaxChars,
-                options.nameFallback,
-                function(value) {
-                    context.set('name', value, {observed:true});
-                });
+            api.addNameObserver(options.nameMaxChars, options.nameFallback, function(value) {
+                context.set('name', value, {observed:true});
+            });
 
             api.addNextParameterPageEnabledObserver(function(value) {
                 context.set('nextParameterPageEnabled', value, {observed:true});
@@ -107,23 +101,17 @@
                 context.set('presetCategories', arguments, {observed:true});
             });
 
-            api.addPresetCategoryObserver(
-                options.presetCategoryMaxChars,
-                options.presetCategoryFallback,
-                function(value) {
-                    context.set('presetCategory', value, {observed:true});
-                });
+            api.addPresetCategoryObserver(options.presetCategoryMaxChars, options.presetCategoryFallback, function(value) {
+                context.set('presetCategory', value, {observed:true});
+            });
 
             api.addPresetCreatorsObserver(function() {
                 context.set('presetCreators', arguments, {observed:true});
             });
 
-            api.addPresetCreatorObserver(
-                options.presetCreatorMaxChars,
-                options.presetCreatorFallback,
-                function(value) {
-                    context.set('presetCreator', value, {observed:true});
-                });
+            api.addPresetCreatorObserver(options.presetCreatorMaxChars, options.presetCreatorFallback, function(value) {
+                context.set('presetCreator', value, {observed:true});
+            });
 
 
             collection = new AutomatableRangedValueCollection();
@@ -155,54 +143,67 @@
                 collection.add(AutomatableRangedValue.create(api.getParameter(i)));
             }
             this.set('parameters', collection);
+            return this;
         },
 
         mextParameterPage: function() {
             this.api.nextParamaterPage();
+            return this;
         },
 
         previousParameterPage: function() {
             this.api.previousParameterPage();
+            return this;
         },
 
         setParameterPage: function(page) {
             this.api.setParameterPage(page);
+            return this;
         },
 
         setPresetCategory: function(index) {
             this.api.setPresetCategory(index);
+            return this;
         },
 
         setPresetCreator: function(index) {
             this.api.setPresetCreator(index);
+            return this;
         },
 
         switchToNextPreset: function(index) {
             this.api.switchToNextPreset(index);
+            return this;
         },
 
         switchToPreviousPreset: function(index) {
             this.api.switchToPreviousPreset(index);
+            return this;
         },
 
         switchToNextPresetCategory: function(index) {
             this.api.switchToNextPresetCategory(index);
+            return this;
         },
 
         switchToPreviousPresetCategory: function(index) {
             this.api.switchToPreviousPresetCategory(index);
+            return this;
         },
 
         switchToNextPresetCreator: function(index) {
             this.api.switchToNextPresetCreator(index);
+            return this;
         },
 
         switchToPreviousPresetCreator: function(index) {
             this.api.switchToPreviousPresetCreator(index);
+            return this;
         },
 
         toggleEnableState: function(index) {
             this.api.toggleEnableState(index);
+            return this;
         }
 
     },{

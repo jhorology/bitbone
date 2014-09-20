@@ -57,65 +57,81 @@
             api.addStepDataObserver(function(step, note, vel) {
             });
 
-            this.set('shuffle', BooleanValue.create(api.getShuffle()));
-            this.set('accent', RangedValue.create(api.getAccent(), options.accent));
-
+            this.set({
+                shuffle: BooleanValue.create(api.getShuffle()),
+                accent: RangedValue.create(api.getAccent(), options.accent)
+            });
+            return this;
         },
 
         clearStep: function(x, y) {
             this.api.clearStep(x, y);
+            return this;
         },
 
         scrollKeysPageDown: function() {
             this.api.scrollKeysPageDown();
+            return this;
         },
 
         scrollKeysPageUp: function() {
             this.api.scrollKeysPageUp();
+            return this;
         },
 
         scrollKeysStepDown: function() {
             this.api.scrollKeysStepDown();
+            return this;
         },
 
         scrollKeysStepUp: function() {
             this.api.scrollKeysStepUp();
+            return this;
         },
 
         scrollStepsStepBackwards: function() {
             this.api.scrollStepsStepBackwards();
+            return this;
         },
 
         scrollStepsStepForward: function() {
             this.api.scrollStepsStepForward();
+            return this;
         },
 
         scrollToKey: function(key) {
             this.api.scrollToKey(key);
+            return this;
         },
 
         scrollToStep: function(step) {
             this.api.scrollToStep(step);
+            return this;
         },
 
         selectStepContents: function(x, y, clearCurrentSelection) {
             this.api.scrollToStep(x, y, clearCurrentSelection);
+            return this;
         },
 
         setName: function(name) {
             this.api.setName(name);
+            return this;
         },
 
         setStep: function(x, y, insertDuration) {
             this.api.setStep(x, y, insertDuration);
+            return this;
         },
 
         setStepSize: function(lenthInBeatTime) {
             this.api.setStepSize(lenthInBeatTime);
+            return this;
         },
 
         toggleStep: function(x, y, insertVelocity) {
             this.api.setStep(x, y, insertVelocity);
+            return this;
         }
 
     },{

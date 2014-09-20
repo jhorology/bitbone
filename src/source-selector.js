@@ -22,8 +22,11 @@
         },
 
         initSourceSelector: function(attributes, options, api) {
-            this.set('hasAudioInputSelected', BooleanValue.create(api.getHasAudioInputSelected()));
-            this.set('hasNoteInputSelected', BooleanValue.create(api.getHasNoteInputSelected()));
+            this.set({
+                hasAudioInputSelected: BooleanValue.create(api.getHasAudioInputSelected()),
+                hasNoteInputSelected: BooleanValue.create(api.getHasNoteInputSelected())
+            });
+            return this;
         }
 
     },{

@@ -32,16 +32,17 @@
             });
 
             this.on('change:value', function (model, value, options) {
-                // if changed by user script
                 options.observed || this.initialized &&
                     api.set(value, _.isNumber(options.range) ? options.range : this.range);
             });
+            return this;
         },
 
         // Increments/Decrements the value.
         inc: function (delta, resolution) {
             var range = _.isNumber(resolution) ? resolution : this.range;
             this.api.inc(delta, range);
+            return this;
         }
 
     },{

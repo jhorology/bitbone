@@ -36,16 +36,15 @@
 
             var context = this;
 
-            api.addLabelObserver(
-                options.labelMaxChars,
-                options.labelFallback,
-                function(value) {
-                    context.set('label', value, {observed:true});
-                });
+            api.addLabelObserver(options.labelMaxChars, options.labelFallback, function(value) {
+                context.set('label', value, {observed:true});
+            });
 
-            this.set('amount', AutomatableRangedValue.create(api.getAmount(), options.amount));
-            this.set('modulationSource',
-                     ModulationSource.create(api.getModulationSource(), options.modulationSource));
+            this.set({
+                amount: AutomatableRangedValue.create(api.getAmount(), options.amount),
+                modulationSource: ModulationSource.create(api.getModulationSource(), options.modulationSource)
+            });
+            return this;
         }
 
     },{

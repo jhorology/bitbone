@@ -19,15 +19,6 @@
     //   textMaxChars  Number default 12
     //   textFallback  string default ''
     //
-    // extend RangedValue
-    // -------------
-    //
-    // Attributes
-    //   value   Number r/w
-    //
-    // Options
-    //   range   Number default 128
-    //
     var AutomatableRangedValue = RangedValue.extend({
         initialize: function(attributes, options, api) {
             this.initAutomatableRangedValue(attributes, options, api);
@@ -48,39 +39,38 @@
                 textFallback: ''
             });
 
-            api.addNameObserver(
-                options.nameMaxChars,
-                options.nameFallback,
-                function(value) {
-                    context.set('name', value, {observed:true});
-                });
+            api.addNameObserver(options.nameMaxChars, options.nameFallback, function(value) {
+                context.set('name', value, {observed:true});
+            });
 
-            api.addValueDisplayObserver(
-                options.textMaxChars,
-                options.textFallback,
-                function(value) {
-                    context.set('text', value, {observed:true});
-                });
+            api.addValueDisplayObserver(options.textMaxChars, options.textFallback,function(value) {
+                context.set('text', value, {observed:true});
+            });
+            return this;
         },
 
         reset: function() {
             this.api.reset();
+            return this;
         },
 
         // Sets if this value should be indicated in the GUI
         // as mapped. (Colored dots)
         setIndication: function(shouldIndicate) {
             this.api.setIndication(shouldIndicate);
+            return this;
         },
 
         // Set label of the mapped hardware parameter shown in the application
         // for certain cases (ex. for control learn)
         setLabel: function(label) {
             this.api.setLabel(label);
+            return this;
         },
 
         touch: function(isBeingTouched) {
             this.api.touch(isBeingTouched);
+            return this;
         }
     },{
 
@@ -98,7 +88,6 @@
     // exports
     root.bitbone || (root.bitbone = {});
     root.bitbone.AutomatableRangedValue = AutomatableRangedValue;
-    root.bitbone.AutomatableRangedValueCollection =
-        AutomatableRangedValueCollection;
+    root.bitbone.AutomatableRangedValueCollection = AutomatableRangedValueCollection;
 
 }(this, host, Backbone, _));

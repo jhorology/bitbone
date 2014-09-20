@@ -1,7 +1,7 @@
 (function(root, Bitwig, Backbone, _) {
     'use strict';
 
-    // ClipLauncherScenesOrSlot
+    // ClipLauncherSceneOrSlot
     // -------------
     //
     // Attributes
@@ -9,15 +9,16 @@
     //   slot       Number r
     //   name       string r
     //
-    var ClipLauncherScenesOrSlot =  Backbone.Model.extend({
+    var ClipLauncherSceneOrSlot =  Backbone.Model.extend({
         idAttribute: 'slot',
         initialize: function(attributes, options, api) {
-            this.initClipLauncherScenesOrSlot(attributes, options);
+            this.initClipLauncherSceneOrSlot(attributes, options);
             this.api = options.api;
             this.initialized = true;
         },
 
-        initClipLauncherScenesOrSlot: function(attributes, options) {
+        initClipLauncherSceneOrSlot: function(attributes, options) {
+            return this;
         },
 
         // Bitwig API wrapper methods
@@ -34,7 +35,7 @@
     // Options
     //
     var ClipLauncherScenesOrSlots =  Backbone.Collection.extend({
-        model: ClipLauncherScenesOrSlot,
+        model: ClipLauncherSceneOrSlot,
 
         initialize: function(models, options, api) {
             this.initClipLauncherScenesOrSlots(models, options, api);
@@ -44,11 +45,10 @@
 
         initClipLauncherScenesOrSlots: function(models, options, api) {
             var context = this;
-            api.addNameObserver(
-                function(slot, value) {
-                    context.add({slot:slot, name:value},
-                                {observed:true, merge:true, api:api});
-                });
+            api.addNameObserver(function(slot, value) {
+                context.add({slot:slot, name:value}, {observed:true, merge:true, api:api});
+            });
+            return this;
         },
 
         // Bitwig API wrapper methods
@@ -56,10 +56,12 @@
 
         returnToArrangement: function() {
             this.api.returnToArrangement();
+            return this;
         },
 
         stop: function() {
             this.api.stop();
+            return this;
         }
 
     }, {
@@ -73,7 +75,7 @@
 
     // export
     root.bitbone || (root.bitbone = {});
-    root.bitbone.ClipLauncherScenesOrSlot = ClipLauncherScenesOrSlot;
+    root.bitbone.ClipLauncherSceneOrSlot = ClipLauncherSceneOrSlot;
     root.bitbone.ClipLauncherScenesOrSlots = ClipLauncherScenesOrSlots;
 
 }(this, host, Backbone, _));

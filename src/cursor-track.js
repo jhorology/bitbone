@@ -1,7 +1,7 @@
 (function(root, Bitwig, Backbone, _) {
     'use strict';
 
-    // inports
+    // imports
     var Track = root.bitbone.Track;
 
     // CursorTrack extend Track
@@ -11,61 +11,6 @@
     //
     //   numSends             Number default:8
     //   numScenes            Number default:8
-    //
-    // Track
-    // -------------
-    //
-    // Attributes
-    // 
-    //   name                 string r/w
-    //   arm                  BooleanValue
-    //   trackType            string r
-    //   pitchNames           Collection {id, name} r
-    //   canHoldAudioData     BooleanValue
-    //   canHoldNoteData      BooleanValue
-    //   clipLauncherSlots    ClipLauncherSlots
-    //   matrixQueuedForStop  BooleanValue
-    //   matrixStopped        BooleanValue
-    //   primaryDevice        Device
-    //   sourceSelector       SourceSelector
-    //
-    // Options
-    //   trackTypeMaxChars   Number default:6
-    //   trackTypeFallback   string default:''
-    //   usePichNames        boolean default false
-    //
-    // Channel
-    // -------------
-    //
-    // Attributes
-    //
-    //   color        object {R,G,B} r
-    //   selected     boolean r
-    //   name         string r
-    //   vuMeterLeft  Number r  *optional options.useVuMeter
-    //   vuMeterRight Number r  *optional options.useVuMeter
-    //   exists       BooleanValue  r
-    //   mute         BooleanValue  r
-    //   pan          AutomatableRangedValue r
-    //   sends        AutomatableRangedValueCollection t
-    //   volume       AutomatableRangedValue r
-    //
-    // Options
-    //
-    //   useNoteEvent  boolean default false
-    //   useVuMeter    boolean default false
-    //   numSends      Number default 8
-    //   nameMaxChars  Number default 12
-    //   vuMeterRamge  boolean default 127
-    //   panRange      Number default 128
-    //   sendRange     Number default 128
-    //   volumeRange   Number default 128
-    //
-    // Events
-    //   'note'       optional *options.useNoteEvent
-    //                args: on/off boolean,
-    //                      note#
-    //                      velocity
     //
     var CursorTrack = Track.extend({
 
@@ -88,14 +33,17 @@
             var context = this;
 
             this.initTrack(attributes, options, api);
+            return this;
         },
 
         selectNext: function() {
             this.api.selectNext();
+            return this;
         },
 
         selectPrevious: function() {
             this.api.selectPrevious();
+            return this;
         }
 
     }, {

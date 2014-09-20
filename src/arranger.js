@@ -32,38 +32,41 @@
             api.addCueMarkerVisibilityObserver(function(value) {
                 context.set('cueMarkerVisibility', value, {observed:true});
             });
-            this.on('change:cueMarkerVisibility', function(model, value, options) {
-                options.observed || this.initialized &&
-                    this.toggleCueMarkerVisibility();
-            });
 
             api.addPlaybackFollowObserver(function(value){
                 context.set('playbackFollow', value, {observed:true});
-            });
-            this.on('change:playbackFollow', function(model, value, options) {
-                options.observed || this.initialized &&
-                    this.togglePlaybackFollow();
             });
 
             api.addTrackRowHeightObserver(function(value) {
                 context.set('trackRowHeight', value, {observed:true});
             });
-            this.on('change:trackRowHeight', function(model, value, options) {
-                options.observed || this.initialized &&
-                    this.toggleTrackRowHeight();
-            });
+
+            this.on('change:cueMarkerVisibility', function(model, value, options) {
+                options.observed || this.initialized && this.toggleCueMarkerVisibility();
+            })
+                .on('change:playbackFollow', function(model, value, options) {
+                    options.observed || this.initialized && this.togglePlaybackFollow();
+                })
+                .on('change:trackRowHeight', function(model, value, options) {
+                    options.observed || this.initialized && this.toggleTrackRowHeight();
+                });
+
+            return this;
         },
 
         toggleCueMarkerVisibility: function() {
             this.api.toggleCueMarkerVisibility();
+            return this;
         },
 
         togglePlaybackFollow: function() {
             this.api.togglePlaybackFollow();
+            return this;
         },
 
         toggleTrackRowHeight: function() {
             this.api.toggleTrackRowHeight();
+            return this;
         }
     },{
         create: function(options) {

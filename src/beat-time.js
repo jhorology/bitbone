@@ -14,7 +14,11 @@
     //
     // Options
     //
-    //   timeSeparator string default "."
+    //   separator        string default "."
+    //   barsLen          Number default 1
+    //   beatsLen         Number default 1
+    //   subdivisionLen   Number default 1
+    //   ticksLen         Number default 0
     //
     var BeatTime = RangedValue.extend({
         initialize: function(attributes, options, api) {
@@ -40,23 +44,24 @@
             api.addRawValueObserver(function(value) {
                 context.set('rawValue', value, {observed: true});
             });
+
+            api.addTimeObserver(
+                options.separator, options.barsLen, options.beatsLen, options.subdivisionLen, options.ticksLen,
+                function(value) {
+                    context.set('text', value, {observed: true});
+                });
+
+
             this.on('change:rawValue', function(model, value, options) {
                 options.observed || this.initialized && this.api.setRaw(value);
             });
 
-            api.addTimeObserver(
-                options.separator,
-                options.barsLen,
-                options.beatsLen,
-                options.subdivisionLen,
-                options.ticksLen,
-                function(value) {
-                    context.set('text', value, {observed: true});
-                });
+            return this;
         },
 
         incRaw: function(delta) {
             this.api.incRaw(delta);
+            return this;
         }
 
     },{

@@ -38,75 +38,78 @@
             api.addClipLauncherSectionVisibilityObserver(function(value) {
                 context.set('clipLauncherSectionVisibility', value, {observed:true});
             });
-            this.on('change:clipLauncherSectionVisibility', function(model, value, options) {
-                options.observed || this.initialized &&
-                    this.toggleClipLauncherSectionVisibility();
-            });
 
             api.addCrossFadeSectionVisibilityObserver(function(value) {
                 context.set('crossFadeSectionVisibility', value, {observed:true});
-            });
-            this.on('change:crossFadeSectionVisibility', function(model, value, options) {
-                options.observed || this.initialized &&
-                    this.toggleCrossFadeSectionVisibility();
             });
 
             api.addDeviceSectionVisibilityObserver(function(value) {
                 context.set('deviceSectionVisibility', value, {observed:true});
             });
-            this.on('change:deviceSectionVisibility', function(model, value, options) {
-                options.observed || this.initialized &&
-                    this.toggleDeviceSectionVisibility();
-            });
 
             api.addIoSectionVisibilityObserver(function(value) {
                 context.set('ioSectionVisibility', value, {observed:true});
-            });
-            this.on('change:ioSectionVisibility', function(model, value, options) {
-                options.observed || this.initialized &&
-                    this.toggleIoSectionVisibility();
             });
 
             api.addMeterSectionVisibilityObserver(function(value) {
                 context.set('meterSectionVisibility', value, {observed:true});
             });
-            this.on('change:meterSectionVisibility', function(model, value, options) {
-                options.observed || this.initialized &&
-                    this.toggleMeterSectionVisibility();
-            });
 
             api.addSendsSectionVisibilityObserver(function(value) {
                 context.set('sendsSectionVisibility', value, {observed:true});
             });
-            this.on('change:sendsSectionVisibility', function(model, value, options) {
-                options.observed || this.initialized &&
-                    this.toggleSendsSectionVisibility();
-            });
+
+
+            this.on('change:clipLauncherSectionVisibility', function(model, value, options) {
+                options.observed || this.initialized && this.toggleClipLauncherSectionVisibility();
+            })
+                .on('change:crossFadeSectionVisibility', function(model, value, options) {
+                    options.observed || this.initialized && this.toggleCrossFadeSectionVisibility();
+                })
+                .on('change:deviceSectionVisibility', function(model, value, options) {
+                    options.observed || this.initialized && this.toggleDeviceSectionVisibility();
+                })
+                .on('change:ioSectionVisibility', function(model, value, options) {
+                    options.observed || this.initialized && this.toggleIoSectionVisibility();
+                })
+                .on('change:meterSectionVisibility', function(model, value, options) {
+                    options.observed || this.initialized && this.toggleMeterSectionVisibility();
+                })
+                .on('change:sendsSectionVisibility', function(model, value, options) {
+                    options.observed || this.initialized && this.toggleSendsSectionVisibility();
+                });
+            return this;
         },
 
 
         toggleClipLauncherSectionVisibility: function() {
             this.api.toggleClipLauncherSectionVisibility();
+            return this;
         },
         
         toggleCrossFadeSectionVisibility: function() {
             this.api.toggleCrossFadeSectionVisibility();
+            return this;
         },
 
         toggleDeviceSectionVisibility: function() {
             this.api.toggleDeviceSectionVisibility();
+            return this;
         },
 
         toggleIoSectionVisibility: function() {
             this.api.toggleIoSectionVisibility();
+            return this;
         },
 
         toggleMeterSectionVisibility: function() {
             this.api.toggleMeterSectionVisibility();
+            return this;
         },
 
         toggleSendsSectionVisibility: function() {
             this.api.toggleSendsSectionVisibility();
+            return this;
         }
     },{
 

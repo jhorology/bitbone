@@ -1,7 +1,7 @@
 (function(root, Bitwig, Backbone, _) {
     'use strict';
 
-    // imports
+    // import dependencies
     var BeatTime = root.bitbone.BeatTime,
         RangedValue = root.bitbone.RangedValue;
 
@@ -30,6 +30,8 @@
     //   postion              BeatTime r
     //   tempo                RangedValue r
     //
+    // Options
+    //
     var Transport = Backbone.Model.extend({
         // instance methods
 
@@ -49,95 +51,53 @@
                     range: 666
                 }
             });
-            
 
             api.addAutomationOverrideObserver(function(value) {
-                context.set('automationOverride', value);
+                context.set('automationOverride', value, {observed: true});
             });
 
             api.addAutomationWriteModeObserver(function(value) {
                 context.set('automationWriteMode', value, {observed: true});
             });
-            this.on('change:automationWriteMode', function(model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized && api.setAutomationWriteMode(value);
-            });
 
             api.addClickObserver(function(value) {
                 context.set('click', value, {observed: true});
-            });
-            this.on('change:click', function(model, value, options) {
-                options.observed || this.initialized && this.api.setClick(value);
             });
 
             api.addIsLoopActiveObserver(function(value) {
                 context.set('loopActive', value, {observed: true});
             });
-            this.on('change:loopActive', function(model, value, options) {
-                options.observed || this.initialized && this.api.setLoop(value);
-            });
 
             api.addIsPlayingObserver(function(value) {
                 context.set('playing', value, {observed: true});
-            });
-            this.on('change:playing', function(model, value, options) {
-                options.observed || this.initialized && ((value) ? this.stop() : this.play());
             });
 
             api.addIsRecordingObserver(function(value) {
                 context.set('recording', value, {observed: true});
             });
-            this.on('change:recording', function(model, value, options) {
-                options.observed || this.initialized && this.record();
-            });
 
             api.addIsWritingArrangerAutomationObserver(function(value) {
                 context.set('writingArrangerAutomation', value, {observed: true});
-            });
-            this.on('change:writingArrangerAutomation', function(model, value, options) {
-                options.observed || this.initialized && this.api.toggleWriteArrangerAutomation();
             });
 
             api.addIsWritingClipLauncherAutomationObserver(function(value) {
                 context.set('writingClipLauncherAutomation', value, {observed: true});
             });
-            this.on('change:writingClipLauncherAutomation', function(model, value, options) {
-                options.observed || this.initialized &&
-                    this.api.toggleWriteClipLauncherAutomation();
-            });
 
             api.addLauncherOverdubObserver(function(value) {
                 context.set('launcherOverdub', value, {observed: true});
-            });
-            this.on('change:launcherOverdub', function(model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized && this.api.setLauncherOverdub(value);
             });
 
             api.addMetronomeTicksObserver(function(value) {
                 context.set('metronomeTicks', value, {observed: true});
             });
-            this.on('change:metronomeTicks', function(model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized && this.api.toggleMetronomeTicks();
-            });
 
             api.addMetronomeVolumeObserver(function(value) {
                 context.set('metronomeVolume', value, {observed: true});
             });
-            this.on('change:metronomeVolume', function(model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized &&
-                    this.api.setMetronomeValue(
-                        value, _.isNumber(options.range) ? options.range : 128);
-            });
 
             api.addOverdubObserver(function(value) {
                 context.set('overdub', value, {observed: true});
-            });
-            this.on('change:overdub', function(model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized && this.api.setOverdub(value);
             });
 
             api.addPreRollObserver(function(value) {
@@ -147,24 +107,60 @@
             api.addPunchInObserver(function(value) {
                 context.set('punchIn', value, {observed: true});
             });
-            this.on('change:punchIn', function(model, value, options) {
-                options.observed || this.initialized && this.api.togglePunchIn();
-            });
 
             api.addPunchOutObserver(function(value) {
                 context.set('punchOut', value, {observed: true});
             });
-            this.on('change:punchOut', function(model, value, options) {
-                options.observed || this.initialized && this.api.togglePunchOut();
-            });
 
-            this.set('inPosition', BeatTime.create(api.getInPosition(), options.inPostion));
-
-            this.set('outPosition', BeatTime.create(api.getOutPosition(), options.outPosition));
-
-            this.set('position', BeatTime.create(api.getPosition(), options.position));
-
-            this.set('tempo', RangedValue.create(api.getTempo(), options.tempo));
+            this.on('change:automationWriteMode', function(model, value, options) {
+                // if changed by user script
+                options.observed || this.initialized && api.setAutomationWriteMode(value);
+            })
+                .on('change:click', function(model, value, options) {
+                    options.observed || this.initialized && this.api.setClick(value);
+                })
+                .on('change:loopActive', function(model, value, options) {
+                    options.observed || this.initialized && this.api.setLoop(value);
+                })
+                .on('change:playing', function(model, value, options) {
+                    options.observed || this.initialized && ((value) ? this.stop() : this.play());
+                })
+                .on('change:recording', function(model, value, options) {
+                    options.observed || this.initialized && this.record();
+                })
+                .on('change:writingArrangerAutomation', function(model, value, options) {
+                    options.observed || this.initialized && this.api.toggleWriteArrangerAutomation();
+                })
+                .on('change:writingClipLauncherAutomation', function(model, value, options) {
+                    options.observed || this.initialized && this.api.toggleWriteClipLauncherAutomation();
+                })
+                .on('change:launcherOverdub', function(model, value, options) {
+                    // if changed by user script
+                    options.observed || this.initialized && this.api.setLauncherOverdub(value);
+                })
+                .on('change:metronomeTicks', function(model, value, options) {
+                    options.observed || this.initialized && this.api.toggleMetronomeTicks();
+                })
+                .on('change:metronomeVolume', function(model, value, options) {
+                    options.observed || this.initialized &&
+                        this.api.setMetronomeValue(value, _.isNumber(options.range) ? options.range : 128);
+                })
+                .on('change:overdub', function(model, value, options) {
+                    options.observed || this.initialized && this.api.setOverdub(value);
+                })
+                .on('change:punchIn', function(model, value, options) {
+                    options.observed || this.initialized && this.api.togglePunchIn();
+                })
+                .on('change:punchOut', function(model, value, options) {
+                    options.observed || this.initialized && this.api.togglePunchOut();
+                })
+                .set({
+                    inPosition: BeatTime.create(api.getInPosition(), options.inPostion),
+                    outPosition: BeatTime.create(api.getOutPosition(), options.outPosition),
+                    position: BeatTime.create(api.getPosition(), options.position),
+                    tempo: RangedValue.create(api.getTempo(), options.tempo)
+                });
+            return this;
         },
 
         fastForward: function() {
@@ -175,22 +171,27 @@
             } else {
                 this.api.fastForward();
             }
+            return this;
         },
 
         incPosition: function(delta, snap) {
             this.api.incPosition(delta, snap);
+            return this;
         },
 
         incTempo: function(delta, slow) {
             this.api.increaseTempo(delta, slow ? 64700 : 647);
+            return this;
         },
 
         incTempoSlow: function(delta) {
             this.incTempo(delta, true);
+            return this;
         },
 
         incTempoFast: function(delta) {
             this.incTempo(delta, false);
+            return this;
         },
 
         jumpToInPosition: function() {
@@ -202,6 +203,7 @@
             } else {
                 this.get('position').setRaw(inPosition);
             }
+            return this;
         },
 
         jumpToOutPosition: function() {
@@ -213,10 +215,12 @@
             } else {
                 this.get('position').setRaw(outPosition);
             }
+            return this;
         },
 
         play: function() {
             this.api.play();
+            return this;
         },
 
         deferredPlay: function(millis) {
@@ -224,22 +228,27 @@
             Bitwig.scheduleTask(function() {
                 context.play();
             }, null, millis);
+            return this;
         },
 
         record: function() {
             this.api.record();
+            return this;
         },
 
         resetAutomationOverrides: function() {
             this.api.resetAutomationOverrides();
+            return this;
         },
 
         rstart: function() {
             this.api.restart();
+            return this;
         },
 
         returnToArrangement: function() {
             this.api.returnToArrangement();
+            return this;
         },
 
         rewind: function() {
@@ -250,54 +259,67 @@
             } else {
                 this.api.rewind();
             }
+            return this;
         },
 
         stop: function() {
             this.api.stop();
+            return this;
         },
 
         toggleClick: function() {
             this.api.toggleClick();
+            return this;
         },
 
         toggleLatchAutomationWriteMode: function() {
             this.api.toggleLatchAutomationWriteMode();
+            return this;
         },
 
         toggleLauncherOverdub: function() {
             this.api.toggleLauncherOverdub();
+            return this;
         },
 
         toggleLoop: function() {
             this.api.toggleLoop();
+            return this;
         },
 
         toggleMetronomeTicks: function() {
             this.api.toggleMetronomeTicks();
+            return this;
         },
 
         toggleOverdub: function() {
             this.api.toggleOverdub();
+            return this;
         },
 
         togglePlay: function() {
             this.api.togglePlay();
+            return this;
         },
 
         togglePunchIn: function() {
             this.api.togglePunchIn();
+            return this;
         },
 
         togglePunchOut: function() {
             this.api.togglePunchOut();
+            return this;
         },
 
         toggleWriteArrangerAutomation: function() {
             this.api.toggleWriteArrangerAutomation();
+            return this;
         },
 
         toggleWriteClipLauncherAutomation: function() {
             this.api.toggleWriteClipLauncherAutomation();
+            return this;
         }
     },{
         // class methods

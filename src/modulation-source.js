@@ -30,20 +30,19 @@
             api.addIsMappingObserver(function(value) {
                 context.set('mapping', value, {observed:true});
             });
-            this.on('change:mapping', function(model, value, options) {
-                // if changed by user script
-                options.observed || this.initialized &&
-                    this.api.toggleMapping();
+            api.addNameObserver(options.nameMaxChars, options.nameFallback, function(value) {
+                context.set('name', value, {observed:true});
             });
-            api.addNameObserver(
-                options.nameMaxChars, options.nameFallback,
-                function(value) {
-                    context.set('name', value, {observed:true});
-                });
-        },
 
+            this.on('change:mapping', function(model, value, options) {
+                options.observed || this.initialized && this.api.toggleMapping();
+            });
+            return this;
+        },
+        
         toggleMapping: function() {
             this.api.toggleMapping();
+            return this;
         }
 
     },{

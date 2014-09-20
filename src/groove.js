@@ -25,22 +25,15 @@
         },
 
         initGroove: function(attributes, options, api) {
-            this.set('accentAmount',
-                     AutomatableRangedValue.create(api.getAccentAmount(), options.accentAmount));
-
-            this.set('accentRate',
-                     AutomatableRangedValue.create(api.getAccentRate(), options.accentRate));
-
-            this.set('accentPhase',
-                     AutomatableRangedValue.create(api.getAccentPhase(), options.accentPhase));
-
-            this.set('shuffleAmount',
-                     AutomatableRangedValue.create(api.getShuffleAmount(), options.shuffleAmount));
-
-            this.set('shuffleRate',
-                     AutomatableRangedValue.create(api.getShuffleRate(), options.shuffleRate));
-
-            this.set('enabled', AutomatableRangedValue.create(api.getEnabled()));
+            this.set({
+                accentAmount: AutomatableRangedValue.create(api.getAccentAmount(), options.accentAmount),
+                accentRate: AutomatableRangedValue.create(api.getAccentRate(), options.accentRate),
+                accentPhase: AutomatableRangedValue.create(api.getAccentPhase(), options.accentPhase),
+                shuffleAmount: AutomatableRangedValue.create(api.getShuffleAmount(), options.shuffleAmount),
+                shuffleRate: AutomatableRangedValue.create(api.getShuffleRate(), options.shuffleRate),
+                enabled: AutomatableRangedValue.create(api.getEnabled())
+            });
+            return this;
         }
 
     },{

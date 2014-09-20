@@ -4,8 +4,7 @@
     // imports
     var BooleanValue = root.bitbone.BooleanValue,
         AutomatableRangedValue = root.bitbone.AutomatableRangedValue,
-        AutomatableRangedValueCollection =
-            root.bitbone.AutomatableRangedValueCollection;
+        AutomatableRangedValueCollection = root.bitbone.AutomatableRangedValueCollection;
 
     // Channel
     // -------------
@@ -47,8 +46,7 @@
         },
 
         initChannel: function(attributes, options, api) {
-            var context = this,
-                i;
+            var context = this;
 
             _.defaults(options, {
                 useNoteEvent: false,
@@ -68,8 +66,7 @@
             });
 
             api.addNameObserver(
-                options.nameMaxChars,
-                options.nameFallback,
+                options.nameMaxChars, options.nameFallback,
                 function(value) {
                     context.set('name', value, {observed:true});
                 });
@@ -81,30 +78,34 @@
             }
 
             if (options.useVuMeter) {
-
                 api.addVuMeterObserver(options.vuMeterRange, 0, true, function(value) {
                     context.set('vuMeterLeft', value, {observed:true});
                 });
-
                 api.addVuMeterObserver(options.vuMeterRange, 1, true, function(value) {
                     context.set('vuMeterRight', value, {observed:true});
                 });
             }
 
-            this.set('exists', BooleanValue.create(api.exists()));
-            this.set('mute',BooleanValue.create(api.getMute()));
-            this.set('pan', AutomatableRangedValue.create(api.getPan(), options.pan));
             var sends = new AutomatableRangedValueCollection();
-            for (i = 0; i < options.numSends; i++) {
+            for (var i = 0; i < options.numSends; i++) {
+                var send = api.getSend(i);
+                if (send === null) { break; }
                 sends.add(AutomatableRangedValue.create(api.getSend(i), options.send));
             }
-            this.set('sends', sends);
-            this.set('solo', BooleanValue.create(api.getSolo()));
-            this.set('volume', AutomatableRangedValue.create(api.getVolume(), options.volume));
+            this.set({
+                exists: BooleanValue.create(api.exists()),
+                mute: BooleanValue.create(api.getMute()),
+                pan: AutomatableRangedValue.create(api.getPan(), options.pan),
+                sends: sends,
+                solo: BooleanValue.create(api.getSolo()),
+                volume: AutomatableRangedValue.create(api.getVolume(), options.volume)
+            });
+            return this;
         },
 
         select: function() {
             this.api.select();
+            return this;
         }
 
     }, {

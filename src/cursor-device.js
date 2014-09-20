@@ -1,6 +1,7 @@
 (function(root, Bitwig, Backbone, _) {
     'use strict';
-    // inports
+
+    // imports
     var Device = root.bitbone.Device;
 
     // CursorDevice extend Device
@@ -34,14 +35,17 @@
             api.addCanSelectPreviousObserver(function(value) {
                 context.set('canSelectPrevious', value, {observed:true});
             });
+            return this;
         },
 
         selectNext: function() {
             this.api.selectNext();
+            return this;
         },
 
         selectPrevious: function() {
             this.api.selectPrevious();
+            return this;
         }
 
     },{

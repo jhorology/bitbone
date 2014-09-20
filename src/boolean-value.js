@@ -25,10 +25,12 @@
                 // if changed by user script
                 options.observed || this.initialized && this.api.set(value);
             });
+            return this;
         },
 
         toggle: function() {
             this.api.toggle();
+            return this;
         }
 
     },{
