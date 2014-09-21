@@ -14,6 +14,7 @@
     //
     var ModulationSource = Backbone.Model.extend({
         initialize: function(attributes, options, api) {
+            options || (options = {});
             this.initModulationSource(attributes, options, api);
             this.api = api;
             this.initialized = true;

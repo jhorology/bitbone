@@ -25,7 +25,7 @@
     //
     var Clip = Backbone.Model.extend({
         initialize: function(attributes, options) {
-
+            options || (options = {});
             _.defaults(options, {
                 gridWidth: 128,
                 gridHeight: 128

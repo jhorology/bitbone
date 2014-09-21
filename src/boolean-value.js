@@ -10,6 +10,7 @@
     //
     var BooleanValue =  Backbone.Model.extend({
         initialize: function(attributes, options, api) {
+            options || (options = {});
             this.initBooleanValue(attributes, options, api);
             this.api = api;
             this.initialized = true;

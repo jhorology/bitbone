@@ -16,6 +16,7 @@
     //
     var UserControlBank = AutomatableRangedValueCollection.extend({
         initialize: function(models, options) {
+            options || (options = {});
             _.defaults(options, {
                 numControllers: 40
             });

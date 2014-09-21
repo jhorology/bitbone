@@ -20,6 +20,7 @@
     //
     var Mixer = Backbone.Model.extend({
         initialize: function(models, options) {
+            options || (options = {});
             _.defaults(options, {
                 perspective: '',
                 screenIndex: 0

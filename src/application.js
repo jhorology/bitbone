@@ -15,6 +15,7 @@
     var Application = Backbone.Model.extend({
         // Initialize backbone model.
         initialize: function(attributes, options) {
+            options || (options = {});
             var api = Bitwig.createApplication();
             this.initApplication(attributes, options, api);
             this.api = api;

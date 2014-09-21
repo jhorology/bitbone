@@ -21,6 +21,7 @@
     //
     var AutomatableRangedValue = RangedValue.extend({
         initialize: function(attributes, options, api) {
+            options || (options = {});
             this.initAutomatableRangedValue(attributes, options, api);
             this.api = api;
             this.initialized = true;

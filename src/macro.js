@@ -22,6 +22,7 @@
     //
     var Macro = Backbone.Model.extend({
         initialize: function(attributes, options, macro) {
+            options || (options = {});
             this.initMacro(attributes, options, macro);
             this.api = macro;
             this.initialized = true;

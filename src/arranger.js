@@ -16,6 +16,7 @@
     //
     var Arranger = Backbone.Model.extend({
         initialize: function(attributes, options) {
+            options || (options = {});
             _.defaults(options, {
                 screenIndex: 0
             });

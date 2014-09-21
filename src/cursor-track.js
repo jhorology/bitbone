@@ -15,6 +15,7 @@
     var CursorTrack = Track.extend({
 
         initialize: function(attributes, options) {
+            options || (options = {});
             // options defaults
             _.defaults(options, {
                 numSends: 8,

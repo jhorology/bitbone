@@ -36,6 +36,7 @@
         // instance methods
 
         initialize: function(attributes, options) {
+            options || (options = {});
             var api = Bitwig.createTransport();
 
             this.initTransport(attributes, options, api);

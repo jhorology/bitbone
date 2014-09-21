@@ -16,6 +16,7 @@
     //
     var SourceSelector = Backbone.Model.extend({
         initialize: function(models, options, api) {
+            options || (options = {});
             this.initSourceSelector(models, options, api);
             this.api = api;
             this.initialized = true;

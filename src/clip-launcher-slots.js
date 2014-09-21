@@ -28,6 +28,7 @@
     var ClipLauncherSlot =  ClipLauncherSceneOrSlot.extend({
         idAttribute: 'slot',
         initialize: function(attributes, options) {
+            options || (options = {});
             this.initClipLauncherSlot(attributes, options);
             this.api = options.api;
             this.initialized = true;
@@ -61,6 +62,7 @@
         model: ClipLauncherSlot,
 
         initialize: function(models, options, api) {
+            options || (options = {});
             this.initClipLauncherSlots(models, options, api);
             this.api = api;
             this.initialized = true;

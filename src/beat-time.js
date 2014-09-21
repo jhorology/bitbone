@@ -22,6 +22,7 @@
     //
     var BeatTime = RangedValue.extend({
         initialize: function(attributes, options, api) {
+            options || (options = {});
             this.initBeatTime(attributes, options, api);
             this.api = api;
             this.initialized = true;

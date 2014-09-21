@@ -17,6 +17,7 @@
     var PrimaryDevice = Device.extend({
 
         initialize: function(attributes, options, device) {
+            options || (options = {});
             this.initPrimaryDevice(attributes, options, device);
             this.api = device;
             this.initialized = true;

@@ -45,6 +45,7 @@
     var Device = Backbone.Model.extend({
 
         initialize: function(attributes, options, device) {
+            options || (options = {});
             this.initDevice(attributes, options, device);
             this.api = device;
             this.initialized = true;

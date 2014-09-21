@@ -39,7 +39,7 @@
     var Channel = Backbone.Model.extend({
         // Initialize backbone model.
         initialize: function(attributes, options, api) {
-
+            options || (options = {});
             this.initChannel(attributes, options, api);
             this.api = api;
             this.initialized = true;

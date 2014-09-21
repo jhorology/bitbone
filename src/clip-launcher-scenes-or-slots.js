@@ -12,6 +12,7 @@
     var ClipLauncherSceneOrSlot =  Backbone.Model.extend({
         idAttribute: 'slot',
         initialize: function(attributes, options, api) {
+            options || (options = {});
             this.initClipLauncherSceneOrSlot(attributes, options);
             this.api = options.api;
             this.initialized = true;
@@ -38,6 +39,7 @@
         model: ClipLauncherSceneOrSlot,
 
         initialize: function(models, options, api) {
+            options || (options = {});
             this.initClipLauncherScenesOrSlots(models, options, api);
             this.api = api;
             this.initialized = true;

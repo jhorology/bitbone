@@ -34,7 +34,7 @@
         model: Track,
 
         initialize: function(attributes, options, api) {
-            
+            options || (options = {});
             this.initTrackBank(attributes, options, api);
             this.api = api;
             this.initialized = true;
@@ -180,6 +180,7 @@
         // factrory methods
 
         create: function(options) {
+            options || (options = {});
             _.defaults(options, {
                 numTracks: 8,
                 numSends: 8,
@@ -189,6 +190,7 @@
         },
 
         createMain: function(options) {
+            options || (options = {});
             _.defaults(options, {
                 numTracks: 8,
                 numSends: 8,
@@ -198,6 +200,7 @@
         },
 
         createEffect: function(options) {
+            options || (options = {});
             _.defaults(options, {
                 numTracks: 2,
                 numScenes: 8

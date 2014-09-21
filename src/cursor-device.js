@@ -18,6 +18,7 @@
         // instance methods
 
         initialize: function(attributes, options) {
+            options || (options = {});
             var api = Bitwig.createCursorDevice();
             this.initCursorDevice(attributes, options, api);
             this.api = api;

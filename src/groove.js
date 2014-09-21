@@ -18,6 +18,7 @@
     //
     var Groove = Backbone.Model.extend({
         initialize: function(attributes, options) {
+            options || (options = {});
             var api = Bitwig.createGroove();
             this.initGroove(attributes, options, api);
             this.api = api;

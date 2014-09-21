@@ -33,6 +33,7 @@
     var Track = Channel.extend({
 
         initialize: function(attributes, options, track) {
+            options || (options = {});
             this.initTrack(attributes, options, track);
             this.api = track;
             this.initialized = true;
@@ -111,12 +112,12 @@
         },
 
         createMaster: function(options) {
+            options || (options = {});
             _.defaults(options, {
                 numScenes: 8
             });
 
             // force numSends to zero.
-            options || (options = {});
             options.numSends = 0;
 
             return Track.create(Bitwig.createMasterTrack(options.numScenes), options);
