@@ -1,8 +1,7 @@
 {
-    /*
-     * Enforcing options
-     * これらにtrueを設定することで、JSHintはより厳しく警告を出すようになる。
-     */
+    // Enforcing options
+    // ----------------
+    // これらにtrueを設定することで、JSHintはより厳しく警告を出すようになる。
 
     // ビット演算子^、|等を禁ずる。
     // JavaScriptにおいてビット演算子が必要になることは稀なので、&は&&のタイポだったりする。
@@ -115,10 +114,9 @@
     "maxlen": 160,
 
 
-    /*
-     * Relaxing options
-     * trueをセットした項目について、JSHintが警告を出さなくなる。
-     */
+    // Relaxing options
+    // ----------------
+    // trueをセットした項目について、JSHintが警告を出さなくなる。
 
     // セミコロンなしの警告を出さなくなる。
     "asi": false,
@@ -274,13 +272,8 @@
     "yui": false,
 
 
-    /*
-     * カスタムグローバルキーワードの設定
-     */
-    // "globals": {
-    //     "Backbone":true,
-    //     "_":true,
-    //     "host":true,
-    // }
+    // custom globals
+    // ----------------
+
     "predef": ["module", "Backbone","host", "_" ]
 }

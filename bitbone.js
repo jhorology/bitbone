@@ -327,7 +327,7 @@
 
         initialize: function (attributes, options, api) {
             options || (options = {});
-            this.initBooleanValue(attributes, options, api);
+            this.initRangedValue(attributes, options, api);
             this.api = api;
             this.initialized = true;
         },
