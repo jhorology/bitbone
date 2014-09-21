@@ -643,10 +643,10 @@
     //
     var Channel = Backbone.Model.extend({
         // Initialize backbone model.
-        initialize: function(attributes, options, channel) {
+        initialize: function(attributes, options, api) {
 
-            this.initChannel(attributes, options, channel);
-            this.api = channel;
+            this.initChannel(attributes, options, api);
+            this.api = api;
             this.initialized = true;
         },
 
@@ -843,6 +843,7 @@
     //   name       string r
     //
     var ClipLauncherSlot =  ClipLauncherSceneOrSlot.extend({
+        idAttribute: 'slot',
         initialize: function(attributes, options) {
             this.initClipLauncherSlot(attributes, options);
             this.api = options.api;
@@ -884,31 +885,30 @@
 
         initClipLauncherSlots: function(models, options, api) {
             var context = this;
-
             this.initClipLauncherScenesOrSlots(models, options, api);
-
+            
             api.addColorObserver(function(slot, r, g, b) {
-                context.add({slot:slot, color:{R:r, G:g, B:b}}, {observed:true, merge:true, api:api});
+                context.add({slot:slot, color:{R:r, G:g, B:b}}, {observed:true, merge:true});
             });
 
             api.addHasContentObserver(function(slot, value) {
-                context.add({slot:slot, hasContent:value}, {observed:true, merge:true, api:api});
+                context.add({slot:slot, hasContent:value}, {observed:true, merge:true});
             });
 
             api.addIsPlayingObserver(function(slot, value) {
-                context.add({slot:slot, playing:value}, {observed:true, merge:true, api:api});
+                context.add({slot:slot, playing:value}, {observed:true, merge:true});
             });
 
             api.addIsQueuedObserver(function(slot, value) {
-                context.add({slot:slot, queued:value}, {observed:true, merge:true, api:api});
+                context.add({slot:slot, queued:value}, {observed:true, merge:true});
             });
 
             api.addIsRecordingObserver(function(slot, value) {
-                context.add({slot:slot, recording:value}, {observed:true, merge:true, api:api});
+                context.add({slot:slot, recording:value}, {observed:true, merge:true});
             });
 
             api.addIsSelectedObserver(function(slot, value) {
-                context.add({slot:slot, selected:value}, {observed:true, merge:true, api:api});
+                context.add({slot:slot, selected:value}, {observed:true, merge:true});
             });
             return this;
         },
@@ -1608,11 +1608,9 @@
             });
 
             this.initChannel(attributes, options, api);
-            api.addTrackTypeObserver(
-                options.trackTypeMaxChars, options.trackTypeFallback,
-                function(value) {
-                    context.set('trackType', value);
-                });
+            api.addTrackTypeObserver(options.trackTypeMaxChars, options.trackTypeFallback, function(value) {
+                context.set('trackType', value);
+            });
 
             this.on('change:name', function(model, value, options) {
                 // if changed by user script

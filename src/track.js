@@ -49,11 +49,9 @@
             });
 
             this.initChannel(attributes, options, api);
-            api.addTrackTypeObserver(
-                options.trackTypeMaxChars, options.trackTypeFallback,
-                function(value) {
-                    context.set('trackType', value);
-                });
+            api.addTrackTypeObserver(options.trackTypeMaxChars, options.trackTypeFallback, function(value) {
+                context.set('trackType', value);
+            });
 
             this.on('change:name', function(model, value, options) {
                 // if changed by user script

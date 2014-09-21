@@ -38,10 +38,10 @@
     //
     var Channel = Backbone.Model.extend({
         // Initialize backbone model.
-        initialize: function(attributes, options, channel) {
+        initialize: function(attributes, options, api) {
 
-            this.initChannel(attributes, options, channel);
-            this.api = channel;
+            this.initChannel(attributes, options, api);
+            this.api = api;
             this.initialized = true;
         },
 
