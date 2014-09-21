@@ -15,6 +15,7 @@
     var Application = Backbone.Model.extend({
         // Initialize backbone model.
         initialize: function(attributes, options) {
+            options || (options = {});
             var api = Bitwig.createApplication();
             this.initApplication(attributes, options, api);
             this.api = api;
@@ -246,6 +247,7 @@
     //
     var Arranger = Backbone.Model.extend({
         initialize: function(attributes, options) {
+            options || (options = {});
             _.defaults(options, {
                 screenIndex: 0
             });
@@ -324,6 +326,7 @@
     var RangedValue = Backbone.Model.extend({
 
         initialize: function (attributes, options, api) {
+            options || (options = {});
             this.initBooleanValue(attributes, options, api);
             this.api = api;
             this.initialized = true;
@@ -398,6 +401,7 @@
     //
     var AutomatableRangedValue = RangedValue.extend({
         initialize: function(attributes, options, api) {
+            options || (options = {});
             this.initAutomatableRangedValue(attributes, options, api);
             this.api = api;
             this.initialized = true;
@@ -493,6 +497,7 @@
     //
     var BeatTime = RangedValue.extend({
         initialize: function(attributes, options, api) {
+            options || (options = {});
             this.initBeatTime(attributes, options, api);
             this.api = api;
             this.initialized = true;
@@ -561,6 +566,7 @@
     //
     var BooleanValue =  Backbone.Model.extend({
         initialize: function(attributes, options, api) {
+            options || (options = {});
             this.initBooleanValue(attributes, options, api);
             this.api = api;
             this.initialized = true;
@@ -644,7 +650,7 @@
     var Channel = Backbone.Model.extend({
         // Initialize backbone model.
         initialize: function(attributes, options, api) {
-
+            options || (options = {});
             this.initChannel(attributes, options, api);
             this.api = api;
             this.initialized = true;
@@ -747,6 +753,7 @@
     var ClipLauncherSceneOrSlot =  Backbone.Model.extend({
         idAttribute: 'slot',
         initialize: function(attributes, options, api) {
+            options || (options = {});
             this.initClipLauncherSceneOrSlot(attributes, options);
             this.api = options.api;
             this.initialized = true;
@@ -773,6 +780,7 @@
         model: ClipLauncherSceneOrSlot,
 
         initialize: function(models, options, api) {
+            options || (options = {});
             this.initClipLauncherScenesOrSlots(models, options, api);
             this.api = api;
             this.initialized = true;
@@ -845,6 +853,7 @@
     var ClipLauncherSlot =  ClipLauncherSceneOrSlot.extend({
         idAttribute: 'slot',
         initialize: function(attributes, options) {
+            options || (options = {});
             this.initClipLauncherSlot(attributes, options);
             this.api = options.api;
             this.initialized = true;
@@ -878,6 +887,7 @@
         model: ClipLauncherSlot,
 
         initialize: function(models, options, api) {
+            options || (options = {});
             this.initClipLauncherSlots(models, options, api);
             this.api = api;
             this.initialized = true;
@@ -966,7 +976,7 @@
     //
     var Clip = Backbone.Model.extend({
         initialize: function(attributes, options) {
-
+            options || (options = {});
             _.defaults(options, {
                 gridWidth: 128,
                 gridHeight: 128
@@ -1102,6 +1112,7 @@
     //
     var ModulationSource = Backbone.Model.extend({
         initialize: function(attributes, options, api) {
+            options || (options = {});
             this.initModulationSource(attributes, options, api);
             this.api = api;
             this.initialized = true;
@@ -1178,6 +1189,7 @@
     //
     var Macro = Backbone.Model.extend({
         initialize: function(attributes, options, macro) {
+            options || (options = {});
             this.initMacro(attributes, options, macro);
             this.api = macro;
             this.initialized = true;
@@ -1271,6 +1283,7 @@
     var Device = Backbone.Model.extend({
 
         initialize: function(attributes, options, device) {
+            options || (options = {});
             this.initDevice(attributes, options, device);
             this.api = device;
             this.initialized = true;
@@ -1467,6 +1480,7 @@
         // instance methods
 
         initialize: function(attributes, options) {
+            options || (options = {});
             var api = Bitwig.createCursorDevice();
             this.initCursorDevice(attributes, options, api);
             this.api = api;
@@ -1530,6 +1544,7 @@
     //
     var SourceSelector = Backbone.Model.extend({
         initialize: function(models, options, api) {
+            options || (options = {});
             this.initSourceSelector(models, options, api);
             this.api = api;
             this.initialized = true;
@@ -1592,6 +1607,7 @@
     var Track = Channel.extend({
 
         initialize: function(attributes, options, track) {
+            options || (options = {});
             this.initTrack(attributes, options, track);
             this.api = track;
             this.initialized = true;
@@ -1670,12 +1686,12 @@
         },
 
         createMaster: function(options) {
+            options || (options = {});
             _.defaults(options, {
                 numScenes: 8
             });
 
             // force numSends to zero.
-            options || (options = {});
             options.numSends = 0;
 
             return Track.create(Bitwig.createMasterTrack(options.numScenes), options);
@@ -1711,6 +1727,7 @@
     var CursorTrack = Track.extend({
 
         initialize: function(attributes, options) {
+            options || (options = {});
             // options defaults
             _.defaults(options, {
                 numSends: 8,
@@ -1777,6 +1794,7 @@
     //
     var Groove = Backbone.Model.extend({
         initialize: function(attributes, options) {
+            options || (options = {});
             var api = Bitwig.createGroove();
             this.initGroove(attributes, options, api);
             this.api = api;
@@ -1831,6 +1849,7 @@
     //
     var Mixer = Backbone.Model.extend({
         initialize: function(models, options) {
+            options || (options = {});
             _.defaults(options, {
                 perspective: '',
                 screenIndex: 0
@@ -1955,6 +1974,7 @@
     var PrimaryDevice = Device.extend({
 
         initialize: function(attributes, options, device) {
+            options || (options = {});
             this.initPrimaryDevice(attributes, options, device);
             this.api = device;
             this.initialized = true;
@@ -2054,7 +2074,7 @@
         model: Track,
 
         initialize: function(attributes, options, api) {
-            
+            options || (options = {});
             this.initTrackBank(attributes, options, api);
             this.api = api;
             this.initialized = true;
@@ -2200,6 +2220,7 @@
         // factrory methods
 
         create: function(options) {
+            options || (options = {});
             _.defaults(options, {
                 numTracks: 8,
                 numSends: 8,
@@ -2209,6 +2230,7 @@
         },
 
         createMain: function(options) {
+            options || (options = {});
             _.defaults(options, {
                 numTracks: 8,
                 numSends: 8,
@@ -2218,6 +2240,7 @@
         },
 
         createEffect: function(options) {
+            options || (options = {});
             _.defaults(options, {
                 numTracks: 2,
                 numScenes: 8
@@ -2270,6 +2293,7 @@
         // instance methods
 
         initialize: function(attributes, options) {
+            options || (options = {});
             var api = Bitwig.createTransport();
 
             this.initTransport(attributes, options, api);
@@ -2588,6 +2612,7 @@
     //
     var UserControlBank = AutomatableRangedValueCollection.extend({
         initialize: function(models, options) {
+            options || (options = {});
             _.defaults(options, {
                 numControllers: 40
             });
